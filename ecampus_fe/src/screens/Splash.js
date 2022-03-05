@@ -6,17 +6,18 @@ const Splash = ({navigation})=> {
     // <View><View><TouchableOpacity onPress={() => {navigation.navigate('loginScreen')}}><Text>Next</Text></TouchableOpacity></View><Text>
     // Waant to know who is Hemant? Click here</Text></View>
     <View style={{flex: 1}}>
-        <ImageBackground source ={require('./../Assets/logo.png')} resizeMode="contain" style={{
+        {/* <ImageBackground source ={require('./../Assets/logo.png')} resizeMode="contain" style={{
             flex:1,
             JustifyContent: 'center',
             alignItems: 'center',
             marginTop: 100,
             marginLeft:15
             }}> 
-            </ImageBackground>
+            </ImageBackground> */}
             <View style = {{flex:1,justifyContent: 'center', alignItems:"center"}}>
             <Text>E-CAMPUS</Text>
-            <TouchableOpacity onPress={() => {navigation.navigate('loginScreen')}}><Text>Next</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => {navigation.navigate('registerScreen')}}><Text>Register</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => {navigation.navigate('loginScreen')}}><Text>Login</Text></TouchableOpacity>
             </View>
     </View>        
   )
