@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import createDataContext from './createDataContext'
+import { Alert } from "react-native";
 import { navigate } from "../../navigationnRef";    
 import actions from '../api/actions'
 // import messaging from '@react-native-firebase/messaging'
@@ -33,7 +34,7 @@ const tryLocalLogin = dispatch => async () => {
         const asyncU = await AsyncStorage.getItem('user')
         let user = JSON.parse(asyncU)
         dispatch({type:"login", payload: token})
-
+        navigate('homeFlow')
     } else {
         console.log("user not exist")
     }
@@ -62,7 +63,7 @@ const register = dispatch => ({ name, mobileNumber, email, password}) => {
     // })
 }
 
-const login = dispaych => ({email, password}) => {
+const login = dispatch => ({email, password}) => {
     let deviceToken = 1234567890
     actions.post('/api/login', {email, password, deviceToken}).then(res => {
         console.log("Logged in response", res.data)
@@ -75,12 +76,13 @@ const login = dispaych => ({email, password}) => {
         AsyncStorage.setItem('user', JSON.stringify(user))
         dispatch({type: 'login', payload: res.data.token})
         if (res.data){
-            navigate('HomeFlow')
+            navigate('homeFlow')
         }
     }).catch(error => {
+        console.log(error)
         return Alert.alert(
             "Login Error",
-            `${error.response.data.error}`,
+            `${error}`,
             [
                 {
                 text: "OK"
