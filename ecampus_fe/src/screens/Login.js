@@ -24,7 +24,7 @@ const Login = ({navigation}) => {
 
     },[])
 
-    const handleLogin = ({name, mobileNumber, email, password}) => {
+    const handleLogin = ({ email, password}) => {
         if ( email == '' || password == "" || password.length <= 7){
             return Alert.alert(
                 "Form Empty",
@@ -57,11 +57,8 @@ const Login = ({navigation}) => {
     }
 
     return (
-        <View style={{flex:1, backgroundColor:"#0275d8"}}>
-            <ScrollView style={{flex:2, backgroundColor:"white",
-            elevation: 24,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20}}>
+        <View>
+            <ScrollView>
             <KeyboardAvoidingView  style={{ padding: 5, justifyContent: 'center', alignItems: 'center', width: '100%'}}>
                 <View style={{width:"100%"}}>
                     <TextInput
@@ -104,8 +101,8 @@ const Login = ({navigation}) => {
     )
 }
 
-// Register.navigationOptions = {
-//     headerShown: false
-// }
+Login.navigationOptions = {
+    headerShown: false
+}
 
 export default Login

@@ -6,7 +6,7 @@ const Splash = ({navigation})=> {
   const { tryLocalLogin } = useContext(AuthContext)
   setTimeout(() => {
       tryLocalLogin()
-  }, 2000);
+  }, 3000);
 
   return (
     // <View><View><TouchableOpacity onPress={() => {navigation.navigate('loginScreen')}}><Text>Next</Text></TouchableOpacity></View><Text>

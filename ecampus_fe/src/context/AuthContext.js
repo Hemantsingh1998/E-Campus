@@ -18,11 +18,7 @@ const authReducer = (state, action) => {
 
         case 'logout':
             return { errorMessage: '', token: null}
-
-        case 'create_todo':
-            return { errorMessage: ''}
-        case 'list_todo':
-            return { errorMessage: ''}
+            
         default: return state
             break;
     }
