@@ -3,17 +3,17 @@ const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema(
     {
-        mobileNumber: {
+        firstName: {
             type: String,
-            max: 10,
-            min:10,
-            required: true
-        },
-        name: {
-            type: String,
-            trim: true,
             required: true,
-            max: 32
+        },
+        middleName: {
+            type: String,
+            required: true,
+        },
+        lastName: {
+            type: String,
+            required: true,
         },
         email: {
             type: String,
@@ -31,9 +31,6 @@ const userSchema = new mongoose.Schema(
             required: true
         },
         salt: String,
-        about: {
-            type: String
-        },
         role: {
             type: Number,
             default: 0

@@ -33,9 +33,9 @@ exports.register = (req, res) => {
             })
         }
 
-        const {name, mobileNumber, email, deviceToken, password} =  req.body
+        const { firstName, middleName, lastName, email, deviceToken, password} =  req.body
 
-        let newUser = new User({name, mobileNumber, email, deviceToken, password})
+        let newUser = new User({firstName, middleName, lastName, email, deviceToken, password})
         newUser.save((err, success) => {
             if (err) {
                 console.log(err)
