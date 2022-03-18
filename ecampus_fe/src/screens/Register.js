@@ -8,9 +8,12 @@ const Register = ({navigation}) => {
 
     const {state, register} = useContext(AuthContext)
     const [email, setemail] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [middleName, setMiddleName] = useState('')
+    const [lastName, setLastName] = useState('')
     const [password, setpassword] = useState('')    
     const [mobileNumber, setmobileNumber] = useState('')
-    const [name, setname] = useState('')
+    // const [name, setname] = useState('')
     // const [error, setError] = useState('')
 
     const emailRegex = /\S+@\S+\.\S+/;
@@ -24,8 +27,8 @@ const Register = ({navigation}) => {
 
     },[])
 
-    const handleRegister = ({name, mobileNumber, email, password}) => {
-        if (name == '' || mobileNumber.length != 10 || email == '' || password == "" || password.length <= 7){
+    const handleRegister = ({firstName, middleName, lastName, mobileNumber, email, password}) => {
+        if ( mobileNumber.length != 10 || email == '' || password == "" || password.length <= 7){
             return Alert.alert(
                 "Form Empty",
                 "Fill Your Credentials & Password Must Be 8 character",
@@ -38,7 +41,7 @@ const Register = ({navigation}) => {
         } else{
             if (emailRegex.test(email)){
                 // console.log("SSRVZDRS")
-                register({name, mobileNumber, email, password})
+                register({firstName, middleName, lastName, mobileNumber, email, password})
             }else {
                 return Alert.alert(
                     "Invalid Email",
@@ -68,12 +71,34 @@ const Register = ({navigation}) => {
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
                     style={{padding:10}}
                         mode="outlined"
-                        label="Name"
+                        label="First Name"
                         returnKeyType="next"
                         autoCapitalize='none'
                         autoCorrect={false}
-                        value={name}
-                        onChangeText={setname}
+                        value={firstName}
+                        onChangeText={setFirstName}
+                    />
+                    <TextInput
+                    theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
+                    style={{padding:10}}
+                        mode="outlined"
+                        label="Middle Name"
+                        returnKeyType="next"
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        value={middleName}
+                        onChangeText={setMiddleName}
+                    />
+                    <TextInput
+                    theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
+                    style={{padding:10}}
+                        mode="outlined"
+                        label="Last Name"
+                        returnKeyType="next"
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        value={lastName}
+                        onChangeText={setLastName}
                     />
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
@@ -116,7 +141,7 @@ const Register = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: "#0275d8",
                     elevation: 12
-                    }} onPress={() => handleRegister({name, mobileNumber, email, password})} >
+                    }} onPress={() => handleRegister({firstName, middleName, lastName, mobileNumber, email, password})} >
                         <Text style={{padding: 10, color:"white"}}>Register</Text>
                     </TouchableOpacity>
                 </View>            

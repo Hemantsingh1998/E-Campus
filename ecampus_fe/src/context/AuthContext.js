@@ -29,17 +29,34 @@ const tryLocalLogin = dispatch => async () => {
     if (token) {
         const asyncU = await AsyncStorage.getItem('user')
         let user = JSON.parse(asyncU)
-        dispatch({type:"login", payload: token})
-        navigate('homeFlow')
+        if (user.role === 2){
+            console.log("admin")
+            navigate('adminFlow')
+        } else {
+            console.log('NULL AUTH')
+        } 
+        if (user.role === 1) {
+            console.log("teacher")
+            navigate('teacherFlow')
+        } else{
+            console.log("TEACHER FLOW")
+        } 
+        if (user.role === 0){
+            console.log('student')
+            navigate('studentFlow')
+        } else {
+            console.log("STUDENT FLOW")
+        }
     } else {
+        navigate('authFlow')
         console.log("user not exist")
     }
 }
 
-const register = dispatch => ({ name, mobileNumber, email, password}) => {
+const register = dispatch => ({ firstName, middleName, lastName, mobileNumber, email, password}) => {
     let deviceToken = 123456890
     // messaging().getToken().then(deviceToken => {
-        actions.post('/api/register', {name, mobileNumber, email, deviceToken, password}).then(res => {
+        actions.post('/api/register', {firstName, middleName, lastName, mobileNumber, email, deviceToken, password}).then(res => {
             console.log("Register Response: ", res.data)
             dispatch({ type: 'register'})
             // navigate('Login', {emailExist: email})
@@ -53,10 +70,7 @@ const register = dispatch => ({ name, mobileNumber, email, password}) => {
                     }
                 ]
             )
-            // dispatch({ type: 'add_error', payload: error.response.data.error})
-            // console.log(error.response.data)
         })
-    // })
 }
 
 const login = dispatch => ({email, password}) => {
@@ -66,13 +80,20 @@ const login = dispatch => ({email, password}) => {
         AsyncStorage.setItem('token', res.data.token)
         let user = {
             id: res.data.user._id,
-            name: res.data.user.name
+            firstName: res.data.user.firstName,
+            middleName: res.data.user.middleName,
+            lastName: res.data.user.lastName,
+            role: res.data.user.role
         }
 
         AsyncStorage.setItem('user', JSON.stringify(user))
         dispatch({type: 'login', payload: res.data.token})
-        if (res.data){
-            navigate('homeFlow')
+        if (res.data.user.role === 2){
+            navigate('adminFlow')
+        } else if (res.data.user.role === 1) {
+            navigate('teacherFlow')
+        } else if ( res.data.user.role === 0) {
+            navigate('studentFlow')
         }
     }).catch(error => {
         console.log(error)
@@ -88,6 +109,37 @@ const login = dispatch => ({email, password}) => {
     })
 }
 
+const logout = dispatch =>  () => {
+    AsyncStorage.removeItem('token')
+    AsyncStorage.removeItem('user')
+    dispatch({type: 'logout'})
+    navigate('authFlow')
+}
+
+
+
 export const {Provider, Context} = createDataContext (
-    authReducer, {register, login, tryLocalLogin}, {token: null, errorMessage: ''}
+    authReducer, {register, login, tryLocalLogin, logout}, {token: null, errorMessage: ''}
 )
+
+export const addCourseAd = ({courseName, duration, postedBy}) => {
+    console.log(courseName, duration, postedBy)
+    actions.post(`/api/add-course`, {courseName, duration, postedBy}).then(res => {
+        // console.log(res.data)
+        return res.data
+    }).catch(err => {
+        console.log(err)
+        return err
+    })
+}
+
+export const addTeacher = ({courseName, duration, postedBy}) => {
+    console.log(courseName, duration, postedBy)
+    // actions.post(`/api/add-course`, {courseName, duration, postedBy}).then(res => {
+    //     // console.log(res.data)
+    //     return res.data
+    // }).catch(err => {
+    //     console.log(err)
+    //     return err
+    // })
+}

@@ -9,6 +9,13 @@ const Mongoose = require('mongoose')
 require('dotenv').config()
 
 const authRouter = require('./routes/authRoutes')
+const courseRouter = require('./routes/courseRoutes')
+const onlineLectureRoutes = require('./routes/onlineLectureRoutes')
+const onlineExamsRoutes = require('./routes/onlineExam')
+const announRoutes = require('./routes/announRoutes')
+const eventRoutes = require('./routes/eventsRoutes')
+const timeTableRoutes = require('./routes/timetableRoutes')
+const teacherRoutes = require('./routes/teacherRoutes')
 
 app.use(bodyparser.json());
 
@@ -24,6 +31,13 @@ if(process.env.NODE_ENV==='developement'){
 }
 
 app.use('/api', authRouter)
+app.use('/api', courseRouter)
+app.use('/api', onlineLectureRoutes)
+app.use('/api', onlineExamsRoutes)
+app.use('/api', announRoutes)
+app.use('/api', eventRoutes)
+app.use('/api', timeTableRoutes)
+app.use('/api', teacherRoutes)
 
 const port = process.env.PORT || 9000;
 app.listen(port,() => {

@@ -2,12 +2,12 @@ import React from "react";
 import { View } from "react-native";
 import { Text } from "react-native-elements";
 
-const Announcement = ({navigation}) => {
+const Events = ({navigation}) => {
     return(
         <View>
-            <Text h1>Announcement</Text>
+            <Text h1>Events</Text>
         </View>
     )
 }
 
-export default Announcement
+export default Events

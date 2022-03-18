@@ -70,10 +70,10 @@ exports.login = (req, res) => {
             const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
                     
             res.cookie('token', token, { expiresIn: '1d' });
-            const { _id, username, name, email, role } = user;
+            const { _id, firstName, middleName, lastName, email, role } = user;
             res.send({
                 token,
-                user: { _id, username, name, email, role }
+                user: { _id, firstName, middleName, lastName, email, role }
             });
         } else {
                 User.findByIdAndUpdate(user._id, {
@@ -85,10 +85,10 @@ exports.login = (req, res) => {
                         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
                                 
                         res.cookie('token', token, { expiresIn: '1d' });
-                        const { _id, username, name, email, role } = user;
+                        const { _id, firstName, middleName, lastName, email, role } = user;
                         res.send({
                             token,
-                            user: { _id, username, name, email, role }
+                            user: { _id, firstName, middleName, lastName, email, role }
                         });
                         // res.send({
                         //     message: "Notification channel updated successfully"

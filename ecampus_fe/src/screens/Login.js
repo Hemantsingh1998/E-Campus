@@ -65,7 +65,7 @@ const Login = ({navigation}) => {
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
                     errorText={'Email Required'}
                     editable={true}
-                        style={{padding:10}}
+                        style={{}}
                         mode="outlined"
                         label="Email"
                         value={email}
@@ -73,7 +73,7 @@ const Login = ({navigation}) => {
                     />
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
-                    style={{padding:10, borderColor:'#0275d8'}}
+                    style={{ borderColor:'#0275d8'}}
                         mode="outlined"
                         label='Password' 
                         secureTextEntry={true}
