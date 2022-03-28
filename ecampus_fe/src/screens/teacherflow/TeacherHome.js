@@ -83,11 +83,6 @@ const TeacherHome = ({navigation}) => {
                         </Text>
                     </View>
                     <View>
-                <Text>
-                    {/* {user.role === 0 ? `Class: class` : `Admin`} */}
-                    Teacher
-                    <Button title="request permissions" onPress={requestCameraPermission} />
-                </Text>
                     </View>
                 </View>
             </View>
@@ -111,7 +106,7 @@ const TeacherHome = ({navigation}) => {
                 </View>
                 <View  style={{justifyContent: 'center', alignItems: 'center'}}>
                                 
-                  <TouchableOpacity onPress={() => navigation.navigate('AnnounceMent', {user:user})}>
+                  <TouchableOpacity onPress={() => navigation.navigate('TAnnounceMent', {user:user})}>
                       <View style={{height: 80, width: 80, padding: 5}}>
                           <ImageBackground source ={require('../../../Assets/announcement.png')} resizeMode="cover" style={{
                             flex:1,
@@ -140,13 +135,13 @@ const TeacherHome = ({navigation}) => {
                       }}><Text>Time Table</Text></View></TouchableOpacity>
                 </View>
                     </View>
-                    <View style={{flex: 1.4, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
+                    <View style={{flex: 1.4, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
 
                     </View>
-                <View style={{flex: 1.4, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
+                <View style={{flex: 1.4, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
                         
-                  <TouchableOpacity onPress={() => navigation.navigate('Attendance', {user:user})}>
+                  <TouchableOpacity onPress={() => navigation.navigate('TAttendance', {user:user})}>
                       <View style={{height: 80, width: 80, padding: 5}}>
                           <ImageBackground source ={require('../../../Assets/attendance.jpg')} resizeMode="cover" style={{
                             flex:1,
@@ -190,7 +185,55 @@ const TeacherHome = ({navigation}) => {
                       }}><Text>E-Card</Text></View></TouchableOpacity>
                 </View>
                 </View>
-                <View style={{flex: 1.4, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
+
+<View style={{flex: 1.4, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 5}}>
+    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        
+  <TouchableOpacity onPress={() => navigation.navigate('Resluts', {user:user}, {user:user})}>
+      <View style={{height: 80, width: 80, padding: 5}}>
+          <ImageBackground source ={require('../../../Assets/Result.png')} resizeMode='cover' style={{
+            flex:1,
+            JustifyContent: 'center',
+            alignItems: 'center',
+            
+            }}> 
+            </ImageBackground>
+      </View><View style={{
+          flexDirection: 'row', justifyContent: 'center', alignItems: 'center'
+      }}><Text>Results</Text></View></TouchableOpacity>
+</View>
+<View  style={{justifyContent: 'center', alignItems: 'center'}}>
+                
+  <TouchableOpacity onPress={() => navigation.navigate('OnlineExams', {user:user})}>
+      <View style={{height: 80, width: 80, padding: 5, flexDirection: 'column', justifyContent: 'center', alignSelf:"center"}}>
+          <ImageBackground source ={require('../../../Assets/onlineexam.png')} resizeMode="cover" style={{
+            flex:1,
+            JustifyContent: 'center',
+            alignItems: 'center',
+            
+            }}> 
+            </ImageBackground>
+      </View><View style={{
+          flexDirection: 'row', justifyContent: 'center', alignItems: 'center'
+      }}><Text>Online Exam</Text></View></TouchableOpacity>
+</View>
+<View style={{justifyContent: 'center', alignItems: 'center'}}>
+                
+  <TouchableOpacity onPress={() => navigation.navigate('OnlineClass', {user:user})}>
+      <View style={{height: 80, width: 80, padding: 5}}>
+          <ImageBackground source ={require('../../../Assets/onlieclass.png')} resizeMode="cover" style={{
+            flex:1,
+            JustifyContent: 'center',
+            alignItems: 'center',
+            
+            }}> 
+            </ImageBackground>
+      </View><View style={{
+          flexDirection: 'row', justifyContent: 'center', alignItems: 'center'
+      }}><Text>Online Class</Text></View></TouchableOpacity>
+</View>
+    </View>
+                <View style={{flex: 1.4, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
 
                 <View style={{justifyContent: 'center', alignItems: 'center'}} >
                                 
@@ -257,6 +300,6 @@ const TeacherHome = ({navigation}) => {
     )
 }
 TeacherHome.navigationOptions = {
-    headerShown: false
+    title: "Teacher Dashboard"
 }
 export default TeacherHome

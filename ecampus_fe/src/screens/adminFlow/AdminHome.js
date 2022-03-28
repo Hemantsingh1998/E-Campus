@@ -14,18 +14,6 @@ const AdminHome = ({navigation}) => {
             const granted = await PermissionsAndroid.check(
                 PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
             )
-        //   const granted = await PermissionsAndroid.request(
-        //     PermissionsAndroid.PERMISSIONS.CAMERA,
-        //     {
-        //       title: "Cool Photo App Camera Permission",
-        //       message:
-        //         "Cool Photo App needs access to your camera " +
-        //         "so you can take awesome pictures.",
-        //       buttonNeutral: "Ask Me Later",
-        //       buttonNegative: "Cancel",
-        //       buttonPositive: "OK"
-        //     }
-        //   );
           if (granted) {
             console.log("You can use the Storage");
           } else {
@@ -94,7 +82,7 @@ const AdminHome = ({navigation}) => {
                     <View style={{flex: 1.4, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 5}}>
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
                         
-                  <TouchableOpacity onPress={() => navigation.navigate('Profile', {user:user}, {user:user})}>
+                  <TouchableOpacity onPress={() => navigation.navigate('Profile', {user:user})}>
                       <View style={{height: 80, width: 80, padding: 5}}>
                           <ImageBackground source ={require('../../../Assets/Profile.jpg')} resizeMode='cover' style={{
                             flex:1,

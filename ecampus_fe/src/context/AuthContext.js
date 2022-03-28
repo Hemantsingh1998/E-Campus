@@ -29,23 +29,17 @@ const tryLocalLogin = dispatch => async () => {
     if (token) {
         const asyncU = await AsyncStorage.getItem('user')
         let user = JSON.parse(asyncU)
+        console.log(user)
         if (user.role === 2){
-            console.log("admin")
             navigate('adminFlow')
-        } else {
-            console.log('NULL AUTH')
-        } 
-        if (user.role === 1) {
-            console.log("teacher")
+        } else if (user.role === 1) {
             navigate('teacherFlow')
-        } else{
-            console.log("TEACHER FLOW")
-        } 
-        if (user.role === 0){
-            console.log('student')
-            navigate('studentFlow')
-        } else {
-            console.log("STUDENT FLOW")
+        } else if ( user.role === 0) {
+            if (user.dataAvailable === false) {
+                navigate('StudentData', {user: user})
+            } else {
+                navigate('StudentHome', {user: user})
+            }
         }
     } else {
         navigate('authFlow')
@@ -83,7 +77,8 @@ const login = dispatch => ({email, password}) => {
             firstName: res.data.user.firstName,
             middleName: res.data.user.middleName,
             lastName: res.data.user.lastName,
-            role: res.data.user.role
+            role: res.data.user.role,
+            dataAvailable: res.data.dataAvailable
         }
 
         AsyncStorage.setItem('user', JSON.stringify(user))
@@ -93,7 +88,11 @@ const login = dispatch => ({email, password}) => {
         } else if (res.data.user.role === 1) {
             navigate('teacherFlow')
         } else if ( res.data.user.role === 0) {
-            navigate('studentFlow')
+            if (res.data.dataAvailable === false) {
+                navigate('StudentData', {user: user})
+            } else {
+                navigate('StudentHome', {user: user})
+            }
         }
     }).catch(error => {
         console.log(error)

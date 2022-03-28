@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect} from 'react'
+import React, { useContext, useState} from 'react'
 import { View, TouchableOpacity, ScrollView, Alert, KeyboardAvoidingView } from "react-native"
-import { Text,Avatar } from 'react-native-elements'
+import { Text } from 'react-native-elements'
 import { Context as AuthContext } from '../context/AuthContext'
 import { TextInput } from 'react-native-paper'
 
@@ -14,15 +14,6 @@ const Login = ({navigation}) => {
     // const [error, setError] = useState('')
 
     const emailRegex = /\S+@\S+\.\S+/;
-
-    useEffect(() => {
-    // setemail('demo@gmail.com')
-    // return Alert.alert(
-        //     "From Developer TODO 2.0",
-        //     "Thank you for trusting this application. This application is in it's beta version, user data will be only used for testing, in this process the data may get deleted. Share your feedback in contact developer as it will help me to improve the stability of the application and build nice user friendly UI. Further updates will be provided through notification"
-        // )
-
-    },[])
 
     const handleLogin = ({ email, password}) => {
         if ( email == '' || password == "" || password.length <= 7){
@@ -95,6 +86,7 @@ const Login = ({navigation}) => {
                         <Text style={{padding: 10, color:"white"}}>Login</Text>
                     </TouchableOpacity>
                 </View>            
+            <TouchableOpacity onPress={() => {navigation.navigate('registerScreen')}}><Text>Register</Text></TouchableOpacity>
             </KeyboardAvoidingView >
             </ScrollView>
         </View>

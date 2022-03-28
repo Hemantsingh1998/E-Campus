@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 // const Noti  = require('../models/notiFiyToken')
+const Student = require('../models/student')
 const user = require('../models/user')
 // const { admin } = require('../firebase');
 
@@ -86,10 +87,30 @@ exports.login = (req, res) => {
                                 
                         res.cookie('token', token, { expiresIn: '1d' });
                         const { _id, firstName, middleName, lastName, email, role } = user;
-                        res.send({
-                            token,
-                            user: { _id, firstName, middleName, lastName, email, role }
-                        });
+
+                        if (role === 0) {
+                            Student.findOne({studentId: _id}).exec((err, student) => {
+                                if (err || !student) {
+                                    res.send({
+                                        dataAvailable: false,
+                                        token,
+                                        user: { _id, firstName, middleName, lastName, email, role }
+                                    });
+                                } else {
+                                    res.send({
+                                        dataAvailable: true,
+                                        token,
+                                        user: { _id, firstName, middleName, lastName, email, role }
+                                    });
+                                }
+                            })
+                        } else {
+                            res.send({
+                                dataAvailable: true,
+                                token,
+                                user: { _id, firstName, middleName, lastName, email, role }
+                            });
+                        }
                         // res.send({
                         //     message: "Notification channel updated successfully"
                         // })

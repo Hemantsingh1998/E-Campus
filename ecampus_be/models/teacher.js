@@ -4,7 +4,7 @@ const {ObjectId} = mongoose.Schema
 const teacherSchema = new mongoose.Schema({
     teacherId: {
         type: ObjectId,
-        ref:'user',
+        ref:'User',
         required: true
     },
     salutation: {
@@ -13,20 +13,11 @@ const teacherSchema = new mongoose.Schema({
     }, 
     course: [{
         type: ObjectId,
-        ref:'course',
+        ref:'Course',
         required: true
     }],
-    section: {
+    stream: {
         type: String,
-        required: true
-    },
-    yearClass: {
-        type: Number,
-        required: true
-    },
-    postedBy: {
-        type: ObjectId,
-        ref: "User",
         required: true
     }
 }, {

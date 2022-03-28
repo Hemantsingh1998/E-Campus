@@ -4,16 +4,16 @@ import { RefreshControl, View, TouchableOpacity, ScrollView, Button, Alert, Flat
 import { Text } from "react-native-elements";
 import { TextInput } from "react-native-paper";
 import SlidingUpPanel from 'rn-sliding-up-panel'
-import actions from '../api/actions'
+import actions from '../../api/actions'
 import {addCourseAd} from '../../context/AuthContext'
 
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-const Events = ({navigation}) => {
+const TAnnouncement = ({navigation}) => {
 
-    const [events, setEvents] = useState([])
+    const [announce, setAnnounce] = useState([])
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [refreshing, setRefreshing] = useState(false);
@@ -23,12 +23,12 @@ const Events = ({navigation}) => {
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-        getEvents()
+        getAnnounce()
         wait(1000).then(() => setRefreshing(false));
     }, []);
 
     useEffect(() => {
-        getEvents()
+        getAnnounce()
     }, [])
 
     const styles = {
@@ -50,7 +50,7 @@ const Events = ({navigation}) => {
 
     const handleSubmit = ({title, description}) => {
         console.log(title, description, user.id)
-        actions.post(`/api/add-event`, {title, description, postedBy: user.id}).then(res => {
+        actions.post(`/api/add-announce`, {title, description, postedBy: user.id}).then(res => {
             _panel.hide()
             onRefresh()
         }).catch(err => {
@@ -58,10 +58,10 @@ const Events = ({navigation}) => {
         })
     }
 
-    const getEvents = () => {
-        actions.get('/api/get-events').then(res => {
+    const getAnnounce = () => {
+        actions.get('/api/get-announce').then(res => {
             // console.log(res.data)s
-            setEvents(res.data.reverse())
+            setAnnounce(res.data.reverse())
         }).catch(err => {
             console.log(err)
         })
@@ -69,8 +69,8 @@ const Events = ({navigation}) => {
 
     return(
         <View style={styles.container}>
-            {events.length === 0 ? <View>
-                <Text>No  Events</Text>
+            {announce.length === 0 ? <View>
+                <Text>No  Announcements</Text>
             </View> : 
         <FlatList       
                 refreshControl={
@@ -79,21 +79,21 @@ const Events = ({navigation}) => {
                 onRefresh={onRefresh}
                 />}
             style={{width: '100%', height:"100%"}}
-                data={events}
+                data={announce}
                 keyExtractor={(item) => item._id}
                 renderItem={({item}) => <TouchableOpacity style={{ padding: 5}}
                 // onPress={() => {navigation.navigate('TodoDetails', { _id: item._id })}}
                 ><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>{item.title}</Text></TouchableOpacity>}
             />}
             <View style={{padding: 50}}>
-                <Button onPress={() => _panel.show()} title="Create Event" />
+                <Button onPress={() => _panel.show()} title="make Announcement" />
             </View>
 
         <SlidingUpPanel draggableRange={{ top: 300, bottom: 0 }}ref={c => (_panel = c)}>
           {dragHandler => (
             <View style={{backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20}}>
               <View style={styles.dragHandler} {...dragHandler}>
-                <Text>Add New Course</Text>
+                <Text>Make Announcement</Text>
               </View>
                   {/* <ScrollView> */}
               <View style={{flexDirection: 'row'}}>
@@ -141,4 +141,8 @@ const Events = ({navigation}) => {
     )
 }
 
-export default Events
+TAnnouncement.navigationOptions = {
+    title: "Annoucements"
+}
+
+export default TAnnouncement

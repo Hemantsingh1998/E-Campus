@@ -19,3 +19,16 @@ exports.addEvent = (req, res) => {
         })
     })
 }
+
+exports.getEvents = (req, res) => {
+    event.find({}).exec((err, events) => {
+        if (err || !events) {
+            console.log(err)
+            return res.status(400).json({
+                error: err
+            })
+        } else{
+            res.send(events)
+        }
+    })
+}

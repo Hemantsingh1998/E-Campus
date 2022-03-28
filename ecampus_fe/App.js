@@ -10,6 +10,7 @@ import registerScreen from './src/screens/Register'
 import AdminHome from './src/screens/adminFlow/AdminHome'
 import Profile from './src/screens/Profile'
 import AnnounceMent from './src/screens/adminFlow/Announcement'
+import TAnnounceMent from './src/screens/teacherflow/TAnnouncement'
 import TimeTable from './src/screens/TimeTable'
 import Attendance from './src/screens/Attendance'
 import OnlineClass from './src/screens/OnlineClass'
@@ -22,6 +23,7 @@ import Ecard from './src/screens/ECard'
 import Events from "./src/screens/Events";
 import ManageTeacher from "./src/screens/adminFlow/ManageTeacher";
 import { LogBox } from 'react-native';
+import StudentData from "./src/screens/StudentData";
 import AddCourse from "./src/screens/adminFlow/AddCourse";
 import TeacherHome from "./src/screens/teacherflow/TeacherHome";
 import StudentHome from './src/screens/studentFlow/StudentHome'
@@ -49,9 +51,22 @@ const switchNavigator = createSwitchNavigator({
     Ecard: Ecard
   }),
   teacherFlow: createStackNavigator({
-    TeacherHome: TeacherHome
+    TeacherHome: TeacherHome,
+    Profile: Profile,
+    TAnnounceMent: TAnnounceMent,
+    TimeTable: TimeTable,
+    TAttendance: Attendance,
+    OnlineClass: OnlineClass,
+    OnlineExams: OnlineExams,
+    Events: Events,
+    Results: Results,
+    Fees: Fees,
+    AboutUs: AboutUs,
+    Ecard: Ecard,
+    Application: Application
   }),
   studentFlow: createStackNavigator({
+    StudentData: StudentData,
     StudentHome: StudentHome,
     Profile: Profile,
     AddCourse: AddCourse,

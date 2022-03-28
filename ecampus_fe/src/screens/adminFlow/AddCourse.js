@@ -4,6 +4,7 @@ import { RefreshControl, View, TouchableOpacity, ScrollView, Button, Alert, Flat
 import { Text } from "react-native-elements";
 import { TextInput } from "react-native-paper";
 import SlidingUpPanel from 'rn-sliding-up-panel'
+import actions from '../../api/actions'
 import {addCourseAd} from '../../context/AuthContext'
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -63,7 +64,7 @@ const AddCourse = ({navigation}) => {
     }
     
     const getCourse = () => {
-        axios.get(`http://192.168.0.12:9000/api/get-course`).then(res => {
+        actions.get(`/api/get-course`).then(res => {
             console.log(res)
             setCourses(res.data.reverse())
         }).catch(err => {
@@ -84,17 +85,12 @@ const AddCourse = ({navigation}) => {
                 data={courses}
                 keyExtractor={(item) => item._id}
                 renderItem={({item}) => <TouchableOpacity style={{ padding: 5}}
-                onPress={() => {navigation.navigate('TodoDetails', { _id: item._id })}}
+                // onPress={() => {navigation.navigate('TodoDetails', { _id: item._id })}}
                 ><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>{item.courseName}</Text></TouchableOpacity>}
             />
             <View style={{padding: 50}}>
                 <Button onPress={() => _panel.show()} title="Create Course" />
             </View>
-        {/* <TouchableOpacity  onPress={() => _panel.show()}>
-          <View>
-            <Text>Make Announcement</Text>
-          </View>
-        </TouchableOpacity> */}
         <SlidingUpPanel draggableRange={{ top: 300, bottom: 0 }}ref={c => (_panel = c)}>
           {dragHandler => (
             <View style={{backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20}}>

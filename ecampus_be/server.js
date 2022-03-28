@@ -16,6 +16,7 @@ const announRoutes = require('./routes/announRoutes')
 const eventRoutes = require('./routes/eventsRoutes')
 const timeTableRoutes = require('./routes/timetableRoutes')
 const teacherRoutes = require('./routes/teacherRoutes')
+const studentRoutes = require('./routes/studentRoutes')
 
 app.use(bodyparser.json());
 
@@ -38,6 +39,7 @@ app.use('/api', announRoutes)
 app.use('/api', eventRoutes)
 app.use('/api', timeTableRoutes)
 app.use('/api', teacherRoutes)
+app.use('/api', studentRoutes)
 
 const port = process.env.PORT || 9000;
 app.listen(port,() => {

@@ -1,11 +1,11 @@
 const User = require('../models/user')
-const teacher = require('../models/teacher')
+const Teacher = require('../models/teacher')
 
 exports.registerTeacher = (req, res) => {
     console.log(req.body)
-    const {teacherId, salutation, course, section, yearClass, postedBy} = req.body
+    const {teacherId, salutation, course, stream} = req.body
     
-    if (!salutation || !section || !yearClass) {
+    if (!salutation || !stream) {
         return res.status(400).json({
             error: "ALL FIELDS ARE REQUIRED"
         })
@@ -17,12 +17,10 @@ exports.registerTeacher = (req, res) => {
         })
     }
 
-    let newTeacher = new teacher()
+    let newTeacher = new Teacher()
     newTeacher.teacherId = teacherId,
     newTeacher.salutation = salutation,
-    newTeacher.section = section,
-    newTeacher.yearClass = yearClass
-    newTeacher.postedBy= postedBy
+    newTeacher.stream = stream
     
     let arrayOfCourse = course
 
@@ -33,7 +31,7 @@ exports.registerTeacher = (req, res) => {
                 error: "THERE WAS A PROBLEM IN REGISTRATING THE TEACHER"
             })
         }
-        teacher.findByIdAndUpdate(success._id, {$push:{course: arrayOfCourse}}, {new:true})
+        Teacher.findByIdAndUpdate(success._id, {$push:{course: arrayOfCourse}}, {new:true})
         .exec((err, resSucc) => {
             if (err) {
                 console.log("TEACHER REGISTER ERR",err)
@@ -44,5 +42,35 @@ exports.registerTeacher = (req, res) => {
                 res.json(resSucc)
             }
         })
+    })
+}
+
+exports.getTeacher = (req, res) => {
+    User.find({role: 1}).exec((err, teacher) => {
+        if (err) {
+            console.log("cannot get teachers",err)
+            return res.status(400).json({
+                error: err
+            })
+        } else {
+            console.log(teacher)
+            res.json(teacher)
+        }
+    })
+}
+
+exports.getAddedTeacher = (req, res) => {
+    Teacher.find({})
+    .populate('teacherId', '_id, firstName lastName')
+    .exec((err, teachers) => {
+        if (err || !teachers) {
+            console.log("Cannot get Teacher",err)
+            return res.status(400).json({
+                error: err
+            })
+        } else {
+            // console.log(teacher)
+            res.json(teachers)
+        }
     })
 }

@@ -5,6 +5,7 @@ import { Text } from "react-native-elements";
 const Profile = ({navigation}) => {
 
     let user = navigation.getParam('user')
+    console.log("USER", user)
 
     return(
         <View style={{flex: 1}}>
