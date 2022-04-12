@@ -115,13 +115,13 @@ const AdminHome = ({navigation}) => {
                                 
                   <TouchableOpacity onPress={() => navigation.navigate('ManageTeacher', {user:user})}>
                       <View style={{height: 80, width: 80, padding: 5}}>
-                          {/* <ImageBackground source ={require('../../../Assets/timetable.png')} resizeMode="cover" style={{
+                          <ImageBackground source ={require('../../../Assets/AddTeachers.png')} resizeMode="cover" style={{
                             flex:1,
                             JustifyContent: 'center',
                             alignItems: 'center',
                             
                             }}> 
-                            </ImageBackground> */}
+                            </ImageBackground>
                       </View><View style={{
                           flexDirection: 'row', justifyContent: 'center', alignItems: 'center'
                       }}><Text>Manage Teacher</Text></View></TouchableOpacity>
@@ -142,22 +142,20 @@ const AdminHome = ({navigation}) => {
                       }}><Text>Time Table</Text></View></TouchableOpacity>
                 </View>}
                     </View>
-                    <View style={{flex: 1.4, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
-
-                    </View>
+                    
                 <View style={{flex: 1.4, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
                 {user.role === 2 ? 
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
                         
                   <TouchableOpacity onPress={() => navigation.navigate('AddCourse', {user:user})}>
                       <View style={{height: 80, width: 80, padding: 5}}>
-                          {/* <ImageBackground source ={require('../../../Assets/attendance.jpg')} resizeMode="cover" style={{
+                          <ImageBackground source ={require('../../../Assets/AddCourses.png')} resizeMode="cover" style={{
                             flex:1,
                             JustifyContent: 'center',
                             alignItems: 'center',
                             
                             }}> 
-                            </ImageBackground> */}
+                            </ImageBackground>
                       </View><View style={{
                           flexDirection: 'row', justifyContent: 'center', alignItems: 'center'
                       }}><Text>Add Course</Text></View></TouchableOpacity>

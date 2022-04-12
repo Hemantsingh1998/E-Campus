@@ -106,7 +106,7 @@ const TeacherHome = ({navigation}) => {
                 </View>
                 <View  style={{justifyContent: 'center', alignItems: 'center'}}>
                                 
-                  <TouchableOpacity onPress={() => navigation.navigate('TAnnounceMent', {user:user})}>
+                  <TouchableOpacity onPress={() => navigation.navigate('AnnounceMent', {user:user})}>
                       <View style={{height: 80, width: 80, padding: 5}}>
                           <ImageBackground source ={require('../../../Assets/announcement.png')} resizeMode="cover" style={{
                             flex:1,
@@ -189,7 +189,7 @@ const TeacherHome = ({navigation}) => {
 <View style={{flex: 1.4, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 5}}>
     <View style={{justifyContent: 'center', alignItems: 'center'}}>
         
-  <TouchableOpacity onPress={() => navigation.navigate('Resluts', {user:user}, {user:user})}>
+  <TouchableOpacity onPress={() => navigation.navigate('Results', {user:user}, {user:user})}>
       <View style={{height: 80, width: 80, padding: 5}}>
           <ImageBackground source ={require('../../../Assets/Result.png')} resizeMode='cover' style={{
             flex:1,

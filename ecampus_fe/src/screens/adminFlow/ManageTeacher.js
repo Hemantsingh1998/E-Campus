@@ -204,7 +204,7 @@ const onSelectedCourseChange = (selectedCourse) => {
                         style={{}}
                         mode="outlined"
                         autoFocus={false}
-                        label="Salutation"
+                        label="Designation"
                         value={salutation}
                         onChangeText={setSalutaion}
                     />

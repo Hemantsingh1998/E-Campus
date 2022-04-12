@@ -19,3 +19,18 @@ exports.addOnlineLecture = (req, res) => {
         })
     })
 }
+
+exports.getClassByTeacher = (req, res) => {
+    console.log(req.params)
+
+    onlineLecture.find({postedBy: req.params.id}).exec((err, classes) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(classes)
+            return res.send({
+                classes
+            })
+        }
+    })
+}

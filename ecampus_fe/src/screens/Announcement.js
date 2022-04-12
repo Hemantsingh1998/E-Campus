@@ -4,9 +4,9 @@ import { RefreshControl, View, TouchableOpacity, ScrollView, Button, Alert, Flat
 import { Text } from "react-native-elements";
 import { TextInput } from "react-native-paper";
 import SlidingUpPanel from 'rn-sliding-up-panel'
-import actions from '../../api/actions'
+import actions from '../api/actions'
 import {addCourseAd} from '../../context/AuthContext'
-
+import Collapsible from 'react-native-collapsible';
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
@@ -17,7 +17,8 @@ const Announcement = ({navigation}) => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [refreshing, setRefreshing] = useState(false);
-
+    const [isCollapsed, setIsCollapsed] = useState(true)
+    
     const user = navigation.getParam('user')
     console.log(user)
 
@@ -81,13 +82,30 @@ const Announcement = ({navigation}) => {
             style={{width: '100%', height:"100%"}}
                 data={announce}
                 keyExtractor={(item) => item._id}
-                renderItem={({item}) => <TouchableOpacity style={{ padding: 5}}
-                // onPress={() => {navigation.navigate('TodoDetails', { _id: item._id })}}
-                ><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>{item.title}</Text></TouchableOpacity>}
+                renderItem={({item}) => 
+                // <TouchableOpacity style={{ padding: 5}}
+                // ><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>
+                //     {item.title}</Text>
+                //     </TouchableOpacity>
+                <View>
+                {isCollapsed ? <TouchableOpacity onPress={() => setIsCollapsed(false)}><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>{item.title}</Text></TouchableOpacity> : 
+                
+                <Collapsible collapsed={isCollapsed}>
+                    <Text h4>Title: {item.title}</Text>
+                    <TouchableOpacity onPress={() => setIsCollapsed(true)} style={{ padding: 5}}
+                ><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>
+                    {item.description}</Text>
+                    </TouchableOpacity>
+                    <View style={{backgroundColor: 'black', paddingVertical: 3}}></View>
+              </Collapsible>}
+              </View>
+                }
             />}
+            {user.role === 0 ? 
+            null: 
             <View style={{padding: 50}}>
                 <Button onPress={() => _panel.show()} title="make Announcement" />
-            </View>
+            </View>}
 
         <SlidingUpPanel draggableRange={{ top: 300, bottom: 0 }}ref={c => (_panel = c)}>
           {dragHandler => (

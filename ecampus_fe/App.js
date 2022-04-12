@@ -9,8 +9,8 @@ import loginScreen from './src/screens/Login'
 import registerScreen from './src/screens/Register'
 import AdminHome from './src/screens/adminFlow/AdminHome'
 import Profile from './src/screens/Profile'
-import AnnounceMent from './src/screens/adminFlow/Announcement'
-import TAnnounceMent from './src/screens/teacherflow/TAnnouncement'
+import AnnounceMent from './src/screens/Announcement'
+// import TAnnounceMent from './src/screens/teacherflow/TAnnouncement'
 import TimeTable from './src/screens/TimeTable'
 import Attendance from './src/screens/Attendance'
 import OnlineClass from './src/screens/OnlineClass'
@@ -27,6 +27,8 @@ import StudentData from "./src/screens/StudentData";
 import AddCourse from "./src/screens/adminFlow/AddCourse";
 import TeacherHome from "./src/screens/teacherflow/TeacherHome";
 import StudentHome from './src/screens/studentFlow/StudentHome'
+import SingleEvent from './src/screens/SingleEvent'
+
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
 ]);
@@ -47,13 +49,14 @@ const switchNavigator = createSwitchNavigator({
     Fees: Fees,
     AboutUs: AboutUs,
     Application: Application,
+    SingleEvent: SingleEvent,
     ManageTeacher: ManageTeacher,
     Ecard: Ecard
   }),
   teacherFlow: createStackNavigator({
     TeacherHome: TeacherHome,
     Profile: Profile,
-    TAnnounceMent: TAnnounceMent,
+    AnnounceMent: AnnounceMent,
     TimeTable: TimeTable,
     TAttendance: Attendance,
     OnlineClass: OnlineClass,
@@ -61,6 +64,7 @@ const switchNavigator = createSwitchNavigator({
     Events: Events,
     Results: Results,
     Fees: Fees,
+    SingleEvent: SingleEvent,
     AboutUs: AboutUs,
     Ecard: Ecard,
     Application: Application
@@ -76,6 +80,7 @@ const switchNavigator = createSwitchNavigator({
     Attendance: Attendance,
     OnlineClass: OnlineClass,
     OnlineExams: OnlineExams,
+    SingleEvent: SingleEvent,
     Results: Results,
     Fees: Fees,
     AboutUs: AboutUs,

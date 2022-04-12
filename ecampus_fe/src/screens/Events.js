@@ -81,13 +81,14 @@ const Events = ({navigation}) => {
             style={{width: '100%', height:"100%"}}
                 data={events}
                 keyExtractor={(item) => item._id}
-                renderItem={({item}) => <TouchableOpacity style={{ padding: 5}}
-                // onPress={() => {navigation.navigate('TodoDetails', { _id: item._id })}}
+                renderItem={({item}) => <TouchableOpacity onPress={() => navigation.navigate('SingleEvent', {item} )} style={{ padding: 5}}
                 ><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>{item.title}</Text></TouchableOpacity>}
             />}
+            {user.role === 0 ? 
+            null: 
             <View style={{padding: 50}}>
-                <Button onPress={() => _panel.show()} title="Create Event" />
-            </View>
+                <Button onPress={() => _panel.show()} title="CREATE EVENT" />
+            </View>}
 
         <SlidingUpPanel draggableRange={{ top: 300, bottom: 0 }}ref={c => (_panel = c)}>
           {dragHandler => (
