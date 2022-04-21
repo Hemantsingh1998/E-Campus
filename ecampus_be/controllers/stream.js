@@ -1,17 +1,17 @@
 const User = require('../models/user')
-const course = require('../models/course')
+const stream = require('../models/stream')
 
-exports.addCourse = (req, res) => {
+exports.addStream = (req, res) => {
     console.log(req.body)
-    course.findOne({courseName: req.body.courseName}).exec((err, c) => {
+    stream.findOne({streamName: req.body.streamName}).exec((err, c) => {
         if (c) {
             return res.send({
                 message: 'Already Exist'
             })
         } else {
-            const { courseName, duration } = req.body
-            let newCourse = new course({courseName, duration})
-            newCourse.save((err, success) => {
+            const { streamName, duration } = req.body
+            let newStream = new stream({streamName, duration})
+            newStream.save((err, success) => {
                 if (err) {
                     console.log(err)
                     return res.status(400).json({
@@ -27,8 +27,8 @@ exports.addCourse = (req, res) => {
 
 }
 
-exports.getCourses = (req, res) => {
-    course.find().exec((err, success) => {
+exports.getStream = (req, res) => {
+    stream.find().exec((err, success) => {
         res.send(success)
     })
 }

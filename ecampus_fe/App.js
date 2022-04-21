@@ -24,7 +24,8 @@ import Events from "./src/screens/Events";
 import ManageTeacher from "./src/screens/adminFlow/ManageTeacher";
 import { LogBox } from 'react-native';
 import StudentData from "./src/screens/StudentData";
-import AddCourse from "./src/screens/adminFlow/AddCourse";
+import AddSubject from "./src/screens/adminFlow/AddSubject";
+import AddStream from "./src/screens/adminFlow/AddStream";
 import TeacherHome from "./src/screens/teacherflow/TeacherHome";
 import StudentHome from './src/screens/studentFlow/StudentHome'
 import SingleEvent from './src/screens/SingleEvent'
@@ -38,7 +39,8 @@ const switchNavigator = createSwitchNavigator({
   adminFlow: createStackNavigator({
     AdminHome: AdminHome,
     Profile: Profile,
-    AddCourse: AddCourse,
+    AddSubject: AddSubject,
+    AddStream: AddStream,
     Events: Events,
     AnnounceMent: AnnounceMent,
     TimeTable: TimeTable,
@@ -70,10 +72,10 @@ const switchNavigator = createSwitchNavigator({
     Application: Application
   }),
   studentFlow: createStackNavigator({
-    StudentData: StudentData,
     StudentHome: StudentHome,
+    StudentData: StudentData,
     Profile: Profile,
-    AddCourse: AddCourse,
+    AddSubject: AddSubject,
     Events: Events,
     AnnounceMent: AnnounceMent,
     TimeTable: TimeTable,

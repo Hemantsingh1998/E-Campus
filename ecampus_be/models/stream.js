@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
-const courseSchema = new mongoose.Schema({
-    courseName: {
+const streamSchema = new mongoose.Schema({
+    streamName: {
         type: String,
         required: true,
     },
@@ -13,4 +13,4 @@ const courseSchema = new mongoose.Schema({
     timestamps: true
 })
 
-module.exports = mongoose.model('course', courseSchema)
+module.exports = mongoose.model('Stream', streamSchema)

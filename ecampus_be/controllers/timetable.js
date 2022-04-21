@@ -4,8 +4,8 @@ const cloudinary = require('cloudinary')
 exports.addTimetable = (req, res) => {
     console.log(req.body)
 
-    const { section, image, postedBy } = req.body
-    let newTimeTable = new timeTable({section, image, postedBy})
+    const { stream, image, postedBy } = req.body
+    let newTimeTable = new timeTable({stream, image, postedBy})
     newTimeTable.save((err, success) => {
         if (err) {
             console.log(err)
@@ -41,4 +41,21 @@ exports.uploadTimeTableImage =  async (req, res) => {
     } catch (err){
         // console.log("CLOUDINARY_SERVER_SIDE", err)
     }
+}
+
+exports.getTimeTableByClassTeacher = (req, res) => {
+    console.log(req.params)
+
+    timeTable.find({postedBy: req.params.id})
+    .populate('stream', '_id, streamName')
+    .exec((err, classes) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(classes)
+            return res.send({
+                classes
+            })
+        }
+    })
 }

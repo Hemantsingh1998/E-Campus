@@ -4,8 +4,8 @@ const onlineExam = require('../models/onlineExam')
 exports.addOnlineExam = (req, res) => {
     console.log(req.body)
 
-    const { course, link, postedBy } = req.body
-    let newExam = new onlineExam({course, link, postedBy})
+    const { subject, link, postedBy } = req.body
+    let newExam = new onlineExam({subject, link, postedBy})
     newExam.save((err, success) => {
         if (err) {
             console.log(err)
@@ -17,5 +17,22 @@ exports.addOnlineExam = (req, res) => {
             message: "Course registered SuccessFully",
             success
         })
+    })
+}
+
+exports.getExamsByTeacher = (req, res) => {
+    console.log(req.params)
+
+    onlineExam.find({postedBy: req.params.id})
+    .populate('subject', '_id, subjectName')
+    .exec((err, classes) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(classes)
+            return res.send({
+                classes
+            })
+        }
     })
 }

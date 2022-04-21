@@ -2,18 +2,37 @@ import React, {useState, useEffect, useContext} from "react";
 import { View, TouchableOpacity, Alert, KeyboardAvoidingView, ScrollView } from "react-native"
 import { Text } from 'react-native-elements'
 import actions from '../api/actions'
-import { TextInput } from 'react-native-paper'
+import { Provider, TextInput } from 'react-native-paper'
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import MultiSelect from 'react-native-multiple-select';
+import DropDown from "react-native-paper-dropdown";
 const StudentData = ({navigation}) => {
-
-    const [dateofbirth, setDateOfBirth] = useState('35-ocb-1002')
-    const [year, setYear] = useState('1')
-    const [course, setCourse] = useState('BSc.IT')
+    const yearList = [
+        {
+          label: "Third Year",
+          value: "Third Year",
+        },
+        {
+          label: "Second Year",
+          value: "Second Year",
+        },
+        {
+          label: "First Year",
+          value: "First Year",
+        },
+    ];
+    const [dateofbirth, setDateOfBirth] = useState('02-jeb-2098')
+    // const [year, setYear] = useState('1')
+    const [course, setCourse] = useState('')
     const [admissionNumber, setAdmissionNumber] = useState('DEMO001')
-    const [fatherName, setFatherName] = useState('Joe')
-    const [motherName, setMotherName] = useState('Dane')
+    const [fatherName, setFatherName] = useState('John')
+    const [motherName, setMotherName] = useState('Jane')  
+    const [showDropDown, setShowDropDown] = useState(false);
+    const [year, setYear] = useState ("")
+    const [stream, setStreams] = useState([])
     const [user, setUser] = useState({})
+    const [selectedItems, setSelectedItems] = useState();
+
     // const user = navigation.getParam('user')
 
     const getAsyUser = async () => {
@@ -24,12 +43,23 @@ const StudentData = ({navigation}) => {
 
     useEffect(() => {
         getAsyUser()
+        getStream()
     },[])
+
+    const getStream = () => {
+        actions.get(`/api/get-streams`).then(res => {
+            console.log(res.data)
+            setStreams(res.data.reverse())
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
     
     const handleSubmit = ({
         dateofbirth,
         year,
-        course,
+        stream,
         addmissionNumber,
         fatherName,
         motherName,
@@ -37,7 +67,7 @@ const StudentData = ({navigation}) => {
         console.log(
             dateofbirth,
             year,
-            course,
+            stream,
             addmissionNumber,
             fatherName,
             motherName,
@@ -47,7 +77,7 @@ const StudentData = ({navigation}) => {
         if (
             dateofbirth === '' ||
             year === '' ||
-            course === '' ||
+            stream === '' ||
             addmissionNumber === '' ||
             fatherName === '' ||
             motherName === '' ) {
@@ -64,7 +94,7 @@ const StudentData = ({navigation}) => {
                 actions.post('/api/add-student', {
                     dateofbirth,
                     year,
-                    course,
+                    stream,
                     admissionNumber,
                     fatherName,
                     motherName, studentId}).then(res => {
@@ -87,46 +117,84 @@ const StudentData = ({navigation}) => {
             }
     }
 
+    const onSelectedItemsChange = (selectedItems) => {
+        setSelectedItems(selectedItems);
+        console.log(selectedItems)
+    };
+
+
     return (
         <View>
             <ScrollView>
             <KeyboardAvoidingView  style={{ padding: 5, justifyContent: 'center', alignItems: 'center', width: '100%'}}>
                 <View style={{width:"100%"}}>
+                <Provider>
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
                     errorText={'Date Required'}
                     editable={true}
-                        style={{}}
+                        style={{margin: 5}}
                         mode="outlined"
                         label="Birth Date"
                         value={dateofbirth}
                         onChangeText={setDateOfBirth}
                     />
-                    <TextInput
+                    {/* <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
                     errorText={'Year Required'}
                     editable={true}
-                        style={{}}
+                        style={{margin: 5}}
                         mode="outlined"
                         keyboardType="number-pad"
                         label="year"
                         value={year}
                         onChangeText={setYear}
-                    />
+                    /> */}
+
+                    <View style={{justifyContent: "center",alignSelf: 'center', width: '90%'}}>
+                        <MultiSelect
+                            single
+                            flatListProps={{height: 100, keyboardShouldPersistTaps:'handled'}}
+                            items={stream}
+                            uniqueKey={stream._id}
+                            onSelectedItemsChange={onSelectedItemsChange}
+                            selectedItems={selectedItems}
+                            selectText="Select Stream"
+                            searchInputPlaceholderText="Search Stream..."
+                            onChangeInput={ (text)=> console.log(text)}
+                            altFontFamily="ProximaNova-Light"
+                            tagRemoveIconColor="#CCC"
+                            textInputProps={{ autoFocus: false }}
+                            tagBorderColor="green"
+                            tagTextColor="green"
+                            selectedItemTextColor="green"
+                            selectedItemIconColor="green"
+                            itemTextColor="#000"
+                            displayKey={`${'streamName'}`}
+                            searchInputStyle={{ color: '#CCC' }}
+                            submitButtonColor="skyblue"
+                            submitButtonText="Submit"
+                        />
+                    </View>
+                        <View style={{
+                        flex:  1,
+                        marginHorizontal:  5,
+                        justifyContent:  'center',
+                        }}>
+                    <DropDown
+                        label={"Year"}
+                        mode={"outlined"}
+                        visible={showDropDown}
+                        showDropDown={() => setShowDropDown(true)}
+                        onDismiss={() => setShowDropDown(false)}
+                        value={year}
+                        setValue={setYear}
+                        list={yearList}
+                        />
+                        </View>
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
-                    style={{ borderColor:'#0275d8'}}
-                        mode="outlined"
-                        label='course'
-                        autoCapitalize='none'
-                        returnKeyType="send"
-                        autoCorrect={false}
-                        value={course}
-                        onChangeText={setCourse}
-                    />
-                    <TextInput
-                    theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
-                    style={{ borderColor:'#0275d8'}}
+                    style={{ borderColor:'#0275d8', margin: 5}}
                         mode="outlined"
                         label='Addmission Number'
                         autoCapitalize='none'
@@ -137,7 +205,7 @@ const StudentData = ({navigation}) => {
                     />
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
-                    style={{ borderColor:'#0275d8'}}
+                    style={{ borderColor:'#0275d8', margin: 5}}
                         mode="outlined"
                         label={`Father's Name`}
                         autoCapitalize='none'
@@ -148,7 +216,7 @@ const StudentData = ({navigation}) => {
                     />
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
-                    style={{ borderColor:'#0275d8'}}
+                    style={{ borderColor:'#0275d8', margin: 5}}
                         mode="outlined"
                         label={`Mother's Name`}
                         autoCapitalize='none'
@@ -157,6 +225,7 @@ const StudentData = ({navigation}) => {
                         value={motherName}
                         onChangeText={setMotherName}
                     />
+                    </Provider>
                     </View>
                 <View>
                     <TouchableOpacity style={{
@@ -167,8 +236,8 @@ const StudentData = ({navigation}) => {
                     elevation: 12
                     }} onPress={() => handleSubmit({
                         dateofbirth,
-                        year : parseInt(year),
-                        course,
+                        year : year,
+                        stream: selectedItems[0],
                         admissionNumber,
                         fatherName,
                         motherName })} >

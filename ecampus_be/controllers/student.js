@@ -11,11 +11,10 @@ exports.addStudent = (req, res) => {
                 error: 'Data already available'
             })
         }
-
         const { 
             dateofbirth,
             year,
-            course,
+            stream,
             admissionNumber,
             fatherName,
             motherName,
@@ -23,7 +22,7 @@ exports.addStudent = (req, res) => {
         let newStudent = new Student({
             dateofbirth,
             year,
-            course,
+            stream,
             admissionNumber,
             fatherName,
             motherName,

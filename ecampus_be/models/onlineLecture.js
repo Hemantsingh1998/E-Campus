@@ -2,8 +2,9 @@ const mongoose = require('mongoose')
 const {ObjectId} = mongoose.Schema
 
 const onlineLecture = new mongoose.Schema({
-    course: {
-        type: String,
+    subject: {
+        type: ObjectId,
+        ref:'Subject',
         required: true
     }, 
     link: {

@@ -5,7 +5,7 @@ import { Text } from "react-native-elements";
 import { TextInput } from "react-native-paper";
 import SlidingUpPanel from 'rn-sliding-up-panel'
 import actions from '../api/actions'
-import {addCourseAd} from '../../context/AuthContext'
+import {AddSubjectAd} from '../../context/AuthContext'
 
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));

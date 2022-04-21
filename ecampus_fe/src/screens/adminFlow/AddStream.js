@@ -4,30 +4,28 @@ import { RefreshControl, View, TouchableOpacity, ScrollView, Button, Alert, Flat
 import { Text } from "react-native-elements";
 import { TextInput } from "react-native-paper";
 import SlidingUpPanel from 'rn-sliding-up-panel'
-import actions from '../api/actions'
-import Collapsible from 'react-native-collapsible';
+import actions from '../../api/actions'
+import {addStreamAd} from '../../context/AuthContext'
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
+const AddStream = ({navigation}) => {
 
-const Announcement = ({navigation}) => {
-    const [announce, setAnnounce] = useState([])
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
+    const [streamName, setStreamName] = useState('')
+    const [duration, setDuration] = useState(0)
+    const [streams, setStreams] = useState([])
     const [refreshing, setRefreshing] = useState(false);
-    const [isCollapsed, setIsCollapsed] = useState(true)
+    // const {state, AddSubjectAd} = useContext(AuthContext)
     
     const user = navigation.getParam('user')
-    // console.log(user)
-
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-        getAnnounce()
+        getCourse()
         wait(1000).then(() => setRefreshing(false));
     }, []);
 
     useEffect(() => {
-        getAnnounce()
+        getCourse()
     }, [])
 
     const styles = {
@@ -47,30 +45,36 @@ const Announcement = ({navigation}) => {
         }
     }
 
-    const handleSubmit = ({title, description}) => {
-        console.log(title, description, user.id)
-        actions.post(`/api/add-announce`, {title, description, postedBy: user.id}).then(res => {
+    const handleSubmit = ({streamName, duration}) => {
+        console.log(streamName, duration)
+        if (streamName === '' || duration === 0) {
+            return Alert.alert(
+            "Form Empty",
+            "Fill Your Credentials",
+            [
+                {
+                    text: "OK",
+                }
+            ]
+        )
+        } else {
+            addStreamAd({streamName, duration, postedBy: user.id})
             _panel.hide()
-            onRefresh()
+        }
+    }
+    
+    const getCourse = () => {
+        actions.get(`/api/get-streams`).then(res => {
+            console.log(res.data)
+            setStreams(res.data.reverse())
         }).catch(err => {
             console.log(err)
         })
     }
 
-    const getAnnounce = () => {
-        actions.get('/api/get-announce').then(res => {
-            // console.log(res.data)s
-            setAnnounce(res.data.reverse())
-        }).catch(err => {
-            console.log(err)
-        })
-    }   
-
     return(
+        // <View>
         <View style={styles.container}>
-            {announce.length === 0 ? <View>
-                <Text>No  Announcements</Text>
-            </View> : 
         <FlatList       
                 refreshControl={
                 <RefreshControl
@@ -78,63 +82,46 @@ const Announcement = ({navigation}) => {
                 onRefresh={onRefresh}
                 />}
             style={{width: '100%', height:"100%"}}
-                data={announce}
+                data={streams}
                 keyExtractor={(item) => item._id}
-                renderItem={({item}) => 
-                // <TouchableOpacity style={{ padding: 5}}
-                // ><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>
-                //     {item.title}</Text>
-                //     </TouchableOpacity>
-                <View>
-                {isCollapsed ? <TouchableOpacity onPress={() => setIsCollapsed(false)}><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>{item.title}</Text></TouchableOpacity> : 
-                
-                <Collapsible collapsed={isCollapsed}>
-                    <Text h4>Title: {item.title}</Text>
-                    <TouchableOpacity onPress={() => setIsCollapsed(true)} style={{ padding: 5}}
-                ><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>
-                    {item.description}</Text>
-                    </TouchableOpacity>
-                    <View style={{backgroundColor: 'black', paddingVertical: 3}}></View>
-              </Collapsible>}
-              </View>
-                }
-            />}
-            {user.role === 0 ? 
-            null: 
+                renderItem={({item}) => <View style={{ padding: 5}}
+                // onPress={() => {navigation.navigate('TodoDetails', { _id: item._id })}}
+                ><View style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}><Text h4>{item.streamName}</Text>
+                <Text>Duration:{item.duration} year</Text></View></View>}
+            />
             <View style={{padding: 50}}>
-                <Button onPress={() => _panel.show()} title="make Announcement" />
-            </View>}
-
+                <Button onPress={() => _panel.show()} title="Add Stream" />
+            </View>
         <SlidingUpPanel draggableRange={{ top: 300, bottom: 0 }}ref={c => (_panel = c)}>
           {dragHandler => (
             <View style={{backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20}}>
               <View style={styles.dragHandler} {...dragHandler}>
-                <Text>Make Announcement</Text>
+                <Text>Add New Stream</Text>
               </View>
-                  {/* <ScrollView> */}
+                  <ScrollView>
               <View style={{flexDirection: 'row'}}>
                   <View style={{ backgroundColor: 'white', width: "100%", justifyContent: 'center', alignItems: "center"}}>
               <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
                     style={{ width: "90%"}}
                         mode="outlined"
-                        label="Title"
+                        label="Stream Name"
                         returnKeyType="next"
                         autoCapitalize='none'
                         autoCorrect={false}
-                        value={title}
-                        onChangeText={setTitle}
+                        value={streamName}
+                        onChangeText={setStreamName}
                     />
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
                     style={{ width: "90%", marginVertical:10}}
                         mode="outlined"
-                        label="Desctiption"
+                        label="Duration as per year"
                         returnKeyType="next"
                         autoCapitalize='none'
                         autoCorrect={false}
-                        value={description}
-                        onChangeText={setDescription}
+                        value={duration}
+                        onChangeText={setDuration}
                     />
                     <View style={{padding: 50}}>
                     <TouchableOpacity style={{
@@ -143,18 +130,19 @@ const Announcement = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: "#0275d8",
                     elevation: 12
-                    }} onPress={() => handleSubmit({title, description})} >
+                    }} onPress={() => handleSubmit({streamName, duration})} >
                         <Text style={{padding: 10, color:"white"}}>Submit</Text>
                     </TouchableOpacity>
                     </View>
                     </View>
                     </View>
-                    {/* </ScrollView> */}
+                    </ScrollView>
             </View>
           )}
         </SlidingUpPanel>
-        </View>
+      </View>
+        // </View>
     )
 }
 
-export default Announcement
+export default AddStream

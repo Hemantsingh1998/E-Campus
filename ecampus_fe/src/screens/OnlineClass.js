@@ -6,7 +6,8 @@ import { TextInput } from "react-native-paper";
 import SlidingUpPanel from 'rn-sliding-up-panel'
 import actions from '../api/actions'
 import Dialog from "react-native-dialog";
-import {addCourseAd} from '../../context/AuthContext'
+import {AddSubjectAd} from '../../context/AuthContext'
+import MultiSelect from 'react-native-multiple-select';
 import Collapsible from 'react-native-collapsible';
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -15,8 +16,9 @@ const wait = (timeout) => {
 const OnlineClass = ({navigation}) => {
 
     const [classes, setClasses] = useState([])
-    const [course, setCourse] = useState('')
+    const [subject, setSubject] = useState('')
     const [link, setLink] = useState('')
+    const [selectedItems, setSelectedItems] = useState([]);
     const [data, setData] = useState({})
     const [refreshing, setRefreshing] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(true)
@@ -31,6 +33,7 @@ const OnlineClass = ({navigation}) => {
     }, []);
 
     useEffect(() => {
+        getCourse()
         getClasses()
     }, [])
 
@@ -58,15 +61,24 @@ const OnlineClass = ({navigation}) => {
         }
     }
 
-    const handleSubmit = ({course, link}) => {
-        console.log(course, link, user.id)
-        actions.post(`/api/add-onlinelecture`, {course, link, postedBy: user.id}).then(res => {
+    const handleSubmit = ({subject, link}) => {
+        console.log(subject, link, user.id)
+        actions.post(`/api/add-onlinelecture`, {subject, link, postedBy: user.id}).then(res => {
             _panel.hide()
             onRefresh()
         }).catch(err => {
             console.log(err)
         })
     }
+
+    const getCourse = () => {
+        actions.get(`/api/get-course`).then(res => {
+            // console.log(res.data)
+            setSubject(res.data.reverse())
+        }).catch(err => {
+            console.log(err)
+        })
+      }
 
     const getClasses = () => {
         actions.get(`/api/get-class/${user.id}`).then(res => {
@@ -87,9 +99,13 @@ const OnlineClass = ({navigation}) => {
     setVisible(false);
     };
 
+    const onSelectedItemsChange = (selectedItems) => {
+        setSelectedItems(selectedItems);
+        console.log(selectedItems)
+    };
 
     const handleDialog = () => {
-        console.log("DATA",data)
+        // console.log("DATA",data)
         return(
         <View>
         <Dialog.Container visible={visible}>
@@ -125,7 +141,7 @@ const OnlineClass = ({navigation}) => {
                 data={classes}
                 keyExtractor={(item) => item._id}
                 renderItem={({item}) => <TouchableOpacity onPress={() =>showDialog(item)} style={{ padding: 5}}
-                ><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>{item.course}</Text></TouchableOpacity>}
+                ><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>{item.subject.subjectName}</Text></TouchableOpacity>}
             />}
             {user.role === 0 ? 
             null: 
@@ -142,7 +158,7 @@ const OnlineClass = ({navigation}) => {
                   {/* <ScrollView> */}
               <View style={{flexDirection: 'row'}}>
                   <View style={{ backgroundColor: 'white', width: "100%", justifyContent: 'center', alignItems: "center"}}>
-              <TextInput
+              {/* <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
                     style={{ width: "90%"}}
                         mode="outlined"
@@ -150,9 +166,34 @@ const OnlineClass = ({navigation}) => {
                         returnKeyType="next"
                         autoCapitalize='none'
                         autoCorrect={false}
-                        value={course}
-                        onChangeText={setCourse}
-                    />
+                        value={subject}
+                        onChangeText={setSubject}
+                    /> */}
+                    <View style={{width:'90%'}}>
+                    <MultiSelect
+                    single
+                        flatListProps={{height: 100, keyboardShouldPersistTaps:'handled'}}
+                        items={subject}
+                        uniqueKey={subject._id}
+                        onSelectedItemsChange={onSelectedItemsChange}
+                        selectedItems={selectedItems}
+                        selectText="Select subject"
+                        searchInputPlaceholderText="Search subject..."
+                        onChangeInput={ (text)=> console.log(text)}
+                        altFontFamily="ProximaNova-Light"
+                        tagRemoveIconColor="#CCC"
+                        textInputProps={{ autoFocus: false }}
+                        tagBorderColor="green"
+                        tagTextColor="green"
+                        selectedItemTextColor="green"
+                        selectedItemIconColor="green"
+                        itemTextColor="#000"
+                        displayKey={`${'subjectName'}`}
+                        searchInputStyle={{ color: '#CCC' }}
+                        submitButtonColor="skyblue"
+                        submitButtonText="Submit"
+                    /> 
+                    </View>
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
                     style={{ width: "90%", marginVertical:10}}
@@ -171,7 +212,7 @@ const OnlineClass = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: "#0275d8",
                     elevation: 12
-                    }} onPress={() => handleSubmit({course, link})} >
+                    }} onPress={() => handleSubmit({subject: selectedItems[0], link})} >
                         <Text style={{padding: 10, color:"white"}}>Submit</Text>
                     </TouchableOpacity>
                     </View>

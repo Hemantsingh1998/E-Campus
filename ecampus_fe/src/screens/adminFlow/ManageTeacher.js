@@ -140,7 +140,7 @@ const onSelectedCourseChange = (selectedCourse) => {
                 ><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>{item.salutation} {item.teacherId.firstName} {item.teacherId.lastName}</Text></TouchableOpacity>}
             />
             <View style={{padding: 50}}>
-                <Button onPress={() => _panel.show()} title="Create Course" />
+                <Button onPress={() => _panel.show()} title="Add new teacher" />
             </View>
         <SlidingUpPanel draggableRange={{ top: 500, bottom: 0 }}ref={c => (_panel = c)}>
           {dragHandler => (
@@ -180,8 +180,8 @@ const onSelectedCourseChange = (selectedCourse) => {
                         uniqueKey={course._id}
                         onSelectedItemsChange={onSelectedCourseChange}
                         selectedItems={selectedCourse}
-                        selectText="Select course to assign teacher"
-                        searchInputPlaceholderText="Search teamMember..."
+                        selectText="Select subject to assign teacher"
+                        searchInputPlaceholderText="Search subject..."
                         onChangeInput={ (text)=> console.log(text)}
                         altFontFamily="ProximaNova-Light"
                         tagRemoveIconColor="#CCC"
@@ -191,7 +191,7 @@ const onSelectedCourseChange = (selectedCourse) => {
                         selectedItemTextColor="green"
                         selectedItemIconColor="green"
                         itemTextColor="#000"
-                        displayKey={`${'courseName'}`}
+                        displayKey={`${'subjectName'}`}
                         searchInputStyle={{ color: '#CCC' }}
                         submitButtonColor="skyblue"
                         submitButtonText="Submit"

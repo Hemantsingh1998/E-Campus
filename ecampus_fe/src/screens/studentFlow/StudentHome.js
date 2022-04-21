@@ -48,15 +48,18 @@ const StudentHome = ({navigation}) => {
         }
       };
     useEffect(() => {
-          requestCameraPermission()
+        requestCameraPermission()
         getAsyncUser()
-    },[])
+    }, [])
     const getAsyncUser = async () => {
         try {
             let userAsync = await AsyncStorage.getItem('user')
             let user = JSON.parse(userAsync)
             // alert(user)
             console.log(user)
+            if (user.dataAvailable === false) {
+                navigation.navigate('StudentData')
+            }
             setuser(user)
         } catch (error) {
             alert(error)
@@ -83,11 +86,10 @@ const StudentHome = ({navigation}) => {
                         </Text>
                     </View>
                     <View>
-                <Text>
-                    {/* {user.role === 0 ? `Class: class` : `Admin`} */}
+                {/* <Text>
                     Student
                     <Button title="request permissions" onPress={requestCameraPermission} />
-                </Text>
+                </Text> */}
                     </View>
                 </View>
             </View>
@@ -305,6 +307,6 @@ const StudentHome = ({navigation}) => {
     )
 }
 StudentHome.navigationOptions = {
-    headerShown: false
+    title: "Student Dashboard"
 }
 export default StudentHome

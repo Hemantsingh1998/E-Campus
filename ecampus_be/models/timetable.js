@@ -2,8 +2,9 @@ const mongoose = require('mongoose')
 const {ObjectId} = mongoose.Schema
 
 const timeTableSchema = new mongoose.Schema({
-    section: {
-        type: String,
+    stream: {
+        type: ObjectId,
+        ref:'Stream',
         required: true
     }, 
     image: {

@@ -5,17 +5,21 @@ import { Text } from "react-native-elements";
 import { TextInput } from "react-native-paper";
 import SlidingUpPanel from 'rn-sliding-up-panel'
 import actions from '../../api/actions'
-import {addCourseAd} from '../../context/AuthContext'
+import {AddSubjectAd} from '../../context/AuthContext'
+import MultiSelect from 'react-native-multiple-select';
+
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
-const AddCourse = ({navigation}) => {
+const AddSubject = ({navigation}) => {
 
-    const [courseName, setCourseName] = useState('')
+    const [subjectName, setSubjectName] = useState('')
     const [duration, setDuration] = useState(0)
     const [courses, setCourses] = useState([])
+    const [stream, setStreams] = useState([])
+    const [selectedItems, setSelectedItems] = useState();
     const [refreshing, setRefreshing] = useState(false);
-    // const {state, addCourseAd} = useContext(AuthContext)
+    // const {state, AddSubjectAd} = useContext(AuthContext)
     
     const user = navigation.getParam('user')
     const onRefresh = React.useCallback(() => {
@@ -26,7 +30,17 @@ const AddCourse = ({navigation}) => {
 
     useEffect(() => {
         getCourse()
+        getStream()
     }, [])
+
+    const getStream = () => {
+        actions.get(`/api/get-streams`).then(res => {
+            console.log(res.data)
+            setStreams(res.data.reverse())
+        }).catch(err => {
+            console.log(err)
+        })
+    }
 
     const styles = {
         container: {
@@ -45,9 +59,9 @@ const AddCourse = ({navigation}) => {
         }
     }
 
-    const handleSubmit = ({courseName, duration}) => {
-        console.log(courseName, duration)
-        if (courseName === '' || duration === 0) {
+    const handleSubmit = ({subjectName, duration}) => {
+        console.log(subjectName, duration, selectedItems)
+        if (subjectName === '' || duration === 0) {
             return Alert.alert(
             "Form Empty",
             "Fill Your Credentials",
@@ -58,7 +72,7 @@ const AddCourse = ({navigation}) => {
             ]
         )
         } else {
-            addCourseAd({courseName, duration, postedBy: user.id})
+            AddSubjectAd({subjectName, duration, belongsTo: selectedItems[0], postedBy: user.id})
             _panel.hide()
         }
     }
@@ -72,6 +86,11 @@ const AddCourse = ({navigation}) => {
         })
     }
 
+    const onSelectedItemsChange = (selectedItems) => {
+        setSelectedItems(selectedItems);
+        console.log(selectedItems)
+    };
+
     return(
         // <View>
         <View style={styles.container}>
@@ -84,44 +103,70 @@ const AddCourse = ({navigation}) => {
             style={{width: '100%', height:"100%"}}
                 data={courses}
                 keyExtractor={(item) => item._id}
-                renderItem={({item}) => <TouchableOpacity style={{ padding: 5}}
+                renderItem={({item}) => <View style={{ padding: 5}}
                 // onPress={() => {navigation.navigate('TodoDetails', { _id: item._id })}}
-                ><Text h4 style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}>{item.courseName}</Text></TouchableOpacity>}
+                ><View style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}><Text h4>{item.subjectName}</Text>
+                <Text>Duration:{item.duration} year</Text></View></View>}
             />
             <View style={{padding: 50}}>
-                <Button onPress={() => _panel.show()} title="Create Course" />
+                <Button onPress={() => _panel.show()} title="Add Subject" />
             </View>
-        <SlidingUpPanel draggableRange={{ top: 300, bottom: 0 }}ref={c => (_panel = c)}>
+        <SlidingUpPanel draggableRange={{ top: 500, bottom: 0 }}ref={c => (_panel = c)}>
           {dragHandler => (
-            <View style={{backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20}}>
+            <View style={{backgroundColor: 'white', borderTopLeftRadius: 20, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, borderTopRightRadius: 20}}>
               <View style={styles.dragHandler} {...dragHandler}>
-                <Text>Add New Course</Text>
+                <Text>Add New Subject</Text>
               </View>
-                  <ScrollView>
+                  <View>
               <View style={{flexDirection: 'row'}}>
                   <View style={{ backgroundColor: 'white', width: "100%", justifyContent: 'center', alignItems: "center"}}>
               <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
                     style={{ width: "90%"}}
                         mode="outlined"
-                        label="Course Name"
+                        label="Subject Name"
                         returnKeyType="next"
                         autoCapitalize='none'
                         autoCorrect={false}
-                        value={courseName}
-                        onChangeText={setCourseName}
+                        value={subjectName}
+                        onChangeText={setSubjectName}
                     />
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
                     style={{ width: "90%", marginVertical:10}}
                         mode="outlined"
-                        label="Duration"
+                        label="Duration as per year"
                         returnKeyType="next"
                         autoCapitalize='none'
                         autoCorrect={false}
                         value={duration}
                         onChangeText={setDuration}
                     />
+                    <View style={{width: '90%'}}>
+                    <MultiSelect
+                        single
+                        flatListProps={{height: 100, keyboardShouldPersistTaps:'handled'}}
+                        items={stream}
+                        uniqueKey={stream._id}
+                        onSelectedItemsChange={onSelectedItemsChange}
+                        selectedItems={selectedItems}
+                        selectText="Select Stream"
+                        searchInputPlaceholderText="Search Stream..."
+                        onChangeInput={ (text)=> console.log(text)}
+                        altFontFamily="ProximaNova-Light"
+                        tagRemoveIconColor="#CCC"
+                        textInputProps={{ autoFocus: false }}
+                        tagBorderColor="green"
+                        tagTextColor="green"
+                        selectedItemTextColor="green"
+                        selectedItemIconColor="green"
+                        itemTextColor="#000"
+                        displayKey={`${'streamName'}`}
+                        searchInputStyle={{ color: '#CCC' }}
+                        submitButtonColor="skyblue"
+                        submitButtonText="Submit"
+                    />
+                    </View>
                     <View style={{padding: 50}}>
                     <TouchableOpacity style={{
                     borderColor: "#0275d8",
@@ -129,13 +174,13 @@ const AddCourse = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: "#0275d8",
                     elevation: 12
-                    }} onPress={() => handleSubmit({courseName, duration})} >
+                    }} onPress={() => handleSubmit({subjectName, duration})} >
                         <Text style={{padding: 10, color:"white"}}>Submit</Text>
                     </TouchableOpacity>
                     </View>
                     </View>
                     </View>
-                    </ScrollView>
+                    </View>
             </View>
           )}
         </SlidingUpPanel>
@@ -144,4 +189,4 @@ const AddCourse = ({navigation}) => {
     )
 }
 
-export default AddCourse
+export default AddSubject

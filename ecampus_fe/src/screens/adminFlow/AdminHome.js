@@ -147,7 +147,7 @@ const AdminHome = ({navigation}) => {
                 {user.role === 2 ? 
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
                         
-                  <TouchableOpacity onPress={() => navigation.navigate('AddCourse', {user:user})}>
+                  <TouchableOpacity onPress={() => navigation.navigate('AddSubject', {user:user})}>
                       <View style={{height: 80, width: 80, padding: 5}}>
                           <ImageBackground source ={require('../../../Assets/AddCourses.png')} resizeMode="cover" style={{
                             flex:1,
@@ -158,7 +158,7 @@ const AdminHome = ({navigation}) => {
                             </ImageBackground>
                       </View><View style={{
                           flexDirection: 'row', justifyContent: 'center', alignItems: 'center'
-                      }}><Text>Add Course</Text></View></TouchableOpacity>
+                      }}><Text>Add Subjects</Text></View></TouchableOpacity>
                 </View> : 
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
                         
@@ -189,6 +189,22 @@ const AdminHome = ({navigation}) => {
                       </View><View style={{
                           flexDirection: 'row', justifyContent: 'center', alignItems: 'center'
                       }}><Text>Fees</Text></View></TouchableOpacity>
+                </View>
+
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                                
+                  <TouchableOpacity onPress={() => navigation.navigate('AddStream', {user:user})}>
+                      <View style={{height: 80, width: 80, padding: 5}}>
+                          <ImageBackground source ={require('../../../Assets/AddCourses.png')} resizeMode="cover" style={{
+                            flex:1,
+                            JustifyContent: 'center',
+                            alignItems: 'center',
+                            
+                            }}> 
+                            </ImageBackground>
+                      </View><View style={{
+                          flexDirection: 'row', justifyContent: 'center', alignItems: 'center'
+                      }}><Text>Add Stream</Text></View></TouchableOpacity>
                 </View>
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
                                 

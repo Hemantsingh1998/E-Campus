@@ -4,9 +4,9 @@ const onlineLecture = require('../models/onlineLecture')
 exports.addOnlineLecture = (req, res) => {
     console.log(req.body)
 
-    const { course, link, postedBy } = req.body
-    let newCourse = new onlineLecture({course, link, postedBy})
-    newCourse.save((err, success) => {
+    const { subject, link, postedBy } = req.body
+    let newClass = new onlineLecture({subject, link, postedBy})
+    newClass.save((err, success) => {
         if (err) {
             console.log(err)
             return res.status(400).json({
@@ -23,7 +23,9 @@ exports.addOnlineLecture = (req, res) => {
 exports.getClassByTeacher = (req, res) => {
     console.log(req.params)
 
-    onlineLecture.find({postedBy: req.params.id}).exec((err, classes) => {
+    onlineLecture.find({postedBy: req.params.id})
+    .populate('subject', '_id, subjectName')
+    .exec((err, classes) => {
         if (err) {
             console.log(err)
         } else {

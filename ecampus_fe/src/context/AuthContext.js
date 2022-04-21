@@ -94,11 +94,11 @@ const login = dispatch => ({email, password}) => {
                 navigate('StudentHome', {user: user})
             }
         }
-    }).catch(error => {
-        console.log(error)
+    }).catch(err => {
+        console.log("ERROR", err)
         return Alert.alert(
             "Login Error",
-            `${error}`,
+            `${err}`,
             [
                 {
                 text: "OK"
@@ -121,9 +121,9 @@ export const {Provider, Context} = createDataContext (
     authReducer, {register, login, tryLocalLogin, logout}, {token: null, errorMessage: ''}
 )
 
-export const addCourseAd = ({courseName, duration, postedBy}) => {
-    console.log(courseName, duration, postedBy)
-    actions.post(`/api/add-course`, {courseName, duration, postedBy}).then(res => {
+export const AddSubjectAd = ({subjectName, duration, belongsTo, postedBy}) => {
+    console.log(subjectName, duration, belongsTo, postedBy)
+    actions.post(`/api/add-course`, {subjectName, duration, belongsTo, postedBy}).then(res => {
         // console.log(res.data)
         return res.data
     }).catch(err => {
@@ -132,9 +132,20 @@ export const addCourseAd = ({courseName, duration, postedBy}) => {
     })
 }
 
-export const addTeacher = ({courseName, duration, postedBy}) => {
-    console.log(courseName, duration, postedBy)
-    // actions.post(`/api/add-course`, {courseName, duration, postedBy}).then(res => {
+export const addStreamAd = ({streamName, duration, postedBy}) => {
+    console.log(streamName, duration, postedBy)
+    actions.post(`/api/add-stream`, {streamName, duration, postedBy}).then(res => {
+        // console.log(res.data)
+        return res.data
+    }).catch(err => {
+        console.log(err)
+        return err
+    })
+}
+
+export const addTeacher = ({subjectName, duration, postedBy}) => {
+    console.log(subjectName, duration, postedBy)
+    // actions.post(`/api/add-course`, {subjectName, duration, postedBy}).then(res => {
     //     // console.log(res.data)
     //     return res.data
     // }).catch(err => {
