@@ -60,16 +60,14 @@ const Register = ({navigation}) => {
     }
 
     return (
-        <View style={{flex:1, backgroundColor:"#0275d8"}}>
+        <View style={{flex:1}}>
             <ScrollView style={{flex:2, backgroundColor:"white",
-            elevation: 24,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20}}>
+            elevation: 24}}>
             <KeyboardAvoidingView  style={{ padding: 5, justifyContent: 'center', alignItems: 'center', width: '100%'}}>
                 <View style={{width:"100%"}}>
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
-                    style={{padding:10}}
+                    style={{margin:5}}
                         mode="outlined"
                         label="First Name"
                         returnKeyType="next"
@@ -80,7 +78,7 @@ const Register = ({navigation}) => {
                     />
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
-                    style={{padding:10}}
+                    style={{margin:5}}
                         mode="outlined"
                         label="Middle Name"
                         returnKeyType="next"
@@ -91,7 +89,7 @@ const Register = ({navigation}) => {
                     />
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
-                    style={{padding:10}}
+                    style={{margin:5}}
                         mode="outlined"
                         label="Last Name"
                         returnKeyType="next"
@@ -102,7 +100,7 @@ const Register = ({navigation}) => {
                     />
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
-                    style={{padding:10}}
+                    style={{margin:5}}
                         mode="outlined"
                         label="Mobile Number"
                         returnKeyType="next"
@@ -115,7 +113,7 @@ const Register = ({navigation}) => {
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
                     errorText={'Email Required'}
                     editable={true}
-                        style={{padding:10}}
+                        style={{margin:5}}
                         mode="outlined"
                         label="Email"
                         value={email}
@@ -123,7 +121,7 @@ const Register = ({navigation}) => {
                     />
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent',}}}
-                    style={{padding:10, borderColor:'#0275d8'}}
+                    style={{margin:5}}
                         mode="outlined"
                         label='Password' 
                         secureTextEntry={true}
@@ -151,8 +149,8 @@ const Register = ({navigation}) => {
     )
 }
 
-// Register.navigationOptions = {
-//     headerShown: false
-// }
+Register.navigationOptions = {
+    title: 'Register'
+}
 
 export default Register

@@ -139,18 +139,6 @@ const StudentData = ({navigation}) => {
                         value={dateofbirth}
                         onChangeText={setDateOfBirth}
                     />
-                    {/* <TextInput
-                    theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
-                    errorText={'Year Required'}
-                    editable={true}
-                        style={{margin: 5}}
-                        mode="outlined"
-                        keyboardType="number-pad"
-                        label="year"
-                        value={year}
-                        onChangeText={setYear}
-                    /> */}
-
                     <View style={{justifyContent: "center",alignSelf: 'center', width: '90%'}}>
                         <MultiSelect
                             single

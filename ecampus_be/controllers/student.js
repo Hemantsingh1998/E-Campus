@@ -42,3 +42,24 @@ exports.addStudent = (req, res) => {
     })
 }
 
+exports.listStudentsForAttendance = (req, res) => {
+    console.log(req.query);
+    // const { stream } = req.query;
+    if (req.query.stream) {
+        Student.find(
+            {
+                $and: [{ stream:req.query.stream },{ year: { $regex: req.query.year, $options: 'i' } }]
+            }
+        ).populate('studentId', '_id, firstName lastName')
+        .exec((err, students) => {
+                if (err) {
+                    console.log(err)
+                    return res.status(400).json({
+                        error: err
+                    });
+                }
+                console.log(students)
+                res.json(students);
+        })
+    }
+};

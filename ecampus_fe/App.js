@@ -60,7 +60,7 @@ const switchNavigator = createSwitchNavigator({
     Profile: Profile,
     AnnounceMent: AnnounceMent,
     TimeTable: TimeTable,
-    TAttendance: Attendance,
+    Attendance: Attendance,
     OnlineClass: OnlineClass,
     OnlineExams: OnlineExams,
     Events: Events,

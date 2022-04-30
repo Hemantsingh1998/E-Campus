@@ -141,7 +141,7 @@ const TeacherHome = ({navigation}) => {
                 <View style={{flex: 1.4, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
                         
-                  <TouchableOpacity onPress={() => navigation.navigate('TAttendance', {user:user})}>
+                  <TouchableOpacity onPress={() => navigation.navigate('Attendance', {user:user})}>
                       <View style={{height: 80, width: 80, padding: 5}}>
                           <ImageBackground source ={require('../../../Assets/attendance.jpg')} resizeMode="cover" style={{
                             flex:1,
