@@ -35,8 +35,8 @@ exports.register = (req, res) => {
         }
 
         const { firstName, middleName, lastName, email, deviceToken, password} =  req.body
-
-        let newUser = new User({firstName, middleName, lastName, email, deviceToken, password})
+        let fullName = `${lastName, middleName, firstName}`
+        let newUser = new User({firstName, middleName, lastName, fullName, email, deviceToken, password})
         newUser.save((err, success) => {
             if (err) {
                 console.log(err)
@@ -49,6 +49,10 @@ exports.register = (req, res) => {
             })
         })
     })
+}
+
+exports.getRegisterStatus = (req, res) => {
+    res.json({status: true})
 }
 
 exports.login = (req, res) => {

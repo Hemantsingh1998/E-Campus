@@ -29,6 +29,8 @@ import AddStream from "./src/screens/adminFlow/AddStream";
 import TeacherHome from "./src/screens/teacherflow/TeacherHome";
 import StudentHome from './src/screens/studentFlow/StudentHome'
 import SingleEvent from './src/screens/SingleEvent'
+import ViewPastAttendance from './src/screens/ViewPastAttend'
+import SingleAttend from './src/screens/SingleAttend'
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
@@ -58,9 +60,11 @@ const switchNavigator = createSwitchNavigator({
   teacherFlow: createStackNavigator({
     TeacherHome: TeacherHome,
     Profile: Profile,
+    ViewPastAttendance: ViewPastAttendance,
     AnnounceMent: AnnounceMent,
     TimeTable: TimeTable,
     Attendance: Attendance,
+    SingleAttend: SingleAttend,
     OnlineClass: OnlineClass,
     OnlineExams: OnlineExams,
     Events: Events,

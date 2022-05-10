@@ -16,12 +16,19 @@ const ManageTeacher = ({navigation}) => {
 
     const [teachers, setTeachers] = useState([])
     const [selectedItems, setSelectedItems] = useState([]);
-    const [selectedCourse, setSelectedCourse] = useState([]);
+    const [selectedStream, setSelectedStream] = useState([]);
+    const [selectedSubjects, setSelectedSubjects] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
-    const [course, setCourse] = useState([])
+    const [subjects, setSubjects] = useState([])
     const [addedTeacher, setAddedTeacher] = useState([])
     const [salutation, setSalutaion] = useState('')
-    const [stream, setStream] = useState(0)
+    const [stream, setStream] = useState([])
+
+    const onSelectedStreamChange = (selectedStream) => {
+      setSelectedStream(selectedStream);
+      console.log(selectedStream)
+  };
+
 
     const onRefresh = React.useCallback(() => {
       setRefreshing(true);
@@ -51,6 +58,7 @@ const ManageTeacher = ({navigation}) => {
 
   useEffect(() => {
     getCourse()
+    getStream()
     getTeacher()
     getAddedTeacher()
   },[])
@@ -58,20 +66,29 @@ const ManageTeacher = ({navigation}) => {
   const getCourse = () => {
     actions.get(`/api/get-course`).then(res => {
         // console.log(res.data)
-        setCourse(res.data.reverse())
+        setSubjects(res.data.reverse())
     }).catch(err => {
         console.log(err)
     })
   }
 
+  const getStream = () => {
+    actions.get(`/api/get-streams`).then(res => {
+        console.log(res.data)
+        setStream(res.data)
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
   const onSelectedItemsChange = (selectedItems) => {
     setSelectedItems(selectedItems);
-    console.log(selectedItems)
+    // console.log(selectedItems)
 };
 
-const handleSubmit = ({selectedCourse, selectedItems, salutation, stream}) => {
-  console.log(selectedCourse, selectedItems, stream)
-  if (selectedCourse.length === 0 || selectedItems.length === 0 || stream === '' ) {
+const handleSubmit = ({selectedSubjects, selectedItems, salutation, stream}) => {
+  console.log("TEST", selectedSubjects, selectedItems, selectedStream)
+  if (selectedSubjects.length === 0 || selectedItems.length === 0 || stream === '' ) {
     return Alert.alert(
       "Form Error",
       "All fields required",
@@ -86,14 +103,14 @@ const handleSubmit = ({selectedCourse, selectedItems, salutation, stream}) => {
     )
   } else {
     actions.post('/api/add-teacher', {teacherId: selectedItems,
-      course: selectedCourse,
-      salutation, stream}).then(res => {
+      subjects: selectedSubjects,
+      salutation, stream: selectedItems}).then(res => {
       console.log("ADDED TEACHER RESPONSE", res.data)
       // setCourse([])
       setSelectedItems([])
-      setSelectedCourse([])
+      setSelectedSubjects([])
       setSalutaion('')
-      setStream('')
+      // setStream([])
       _panel.hide()
     }).catch(err => {
       console.log("ADD TEACHER ERR", err)
@@ -101,9 +118,9 @@ const handleSubmit = ({selectedCourse, selectedItems, salutation, stream}) => {
   }
 }
 
-const onSelectedCourseChange = (selectedCourse) => {
-  setSelectedCourse(selectedCourse);
-  console.log(selectedCourse)
+const onselectedSubjectsChange = (selectedSubjects) => {
+  setSelectedSubjects(selectedSubjects);
+  // console.log(selectedSubjects)
 };
     const styles = {
       container: {
@@ -176,10 +193,10 @@ const onSelectedCourseChange = (selectedCourse) => {
                     />
                   <MultiSelect
                         flatListProps={{height: 100, keyboardShouldPersistTaps:'handled'}}
-                        items={course}
-                        uniqueKey={course._id}
-                        onSelectedItemsChange={onSelectedCourseChange}
-                        selectedItems={selectedCourse}
+                        items={subjects}
+                        uniqueKey={subjects._id}
+                        onSelectedItemsChange={onselectedSubjectsChange}
+                        selectedItems={selectedSubjects}
                         selectText="Select subject to assign teacher"
                         searchInputPlaceholderText="Search subject..."
                         onChangeInput={ (text)=> console.log(text)}
@@ -196,6 +213,29 @@ const onSelectedCourseChange = (selectedCourse) => {
                         submitButtonColor="skyblue"
                         submitButtonText="Submit"
                     /> 
+                    <MultiSelect
+                      single
+                      flatListProps={{height: 100, keyboardShouldPersistTaps:'handled'}}
+                      items={stream}
+                      uniqueKey={stream._id}
+                      onSelectedItemsChange={onSelectedStreamChange}
+                      selectedItems={selectedStream}
+                      selectText="Select Stream"
+                      searchInputPlaceholderText="Search Stream..."
+                      onChangeInput={ (text)=> console.log(text)}
+                      altFontFamily="ProximaNova-Light"
+                      tagRemoveIconColor="#CCC"
+                      textInputProps={{ autoFocus: false }}
+                      tagBorderColor="green"
+                      tagTextColor="green"
+                      selectedItemTextColor="green"
+                      selectedItemIconColor="green"
+                      itemTextColor="#000"
+                      displayKey={`${'streamName'}`}
+                      searchInputStyle={{ color: '#CCC' }}
+                      submitButtonColor="skyblue"
+                      submitButtonText="Submit"
+                  />
                   <View style={{width:"100%"}}>
                     <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
@@ -208,7 +248,7 @@ const onSelectedCourseChange = (selectedCourse) => {
                         value={salutation}
                         onChangeText={setSalutaion}
                     />
-                    <TextInput
+                    {/* <TextInput
                     theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
                     errorText={'Stream required'}
                     editable={true}
@@ -218,7 +258,7 @@ const onSelectedCourseChange = (selectedCourse) => {
                         label="Stream"
                         value={stream}
                         onChangeText={setStream}
-                    />
+                    /> */}
                     </View>
                     <View style={{padding: 30}}>
                     <TouchableOpacity style={{
@@ -227,7 +267,7 @@ const onSelectedCourseChange = (selectedCourse) => {
                     borderRadius: 10,
                     backgroundColor: "#0275d8",
                     elevation: 12
-                    }} onPress={() => handleSubmit({selectedCourse, selectedItems, salutation, stream})}>
+                    }} onPress={() => handleSubmit({selectedSubjects: selectedSubjects, selectedItems, salutation, stream})}>
                         <Text style={{padding: 10, color:"white", alignSelf: "center"}}>Submit</Text>
                     </TouchableOpacity>
                     </View>

@@ -98,7 +98,7 @@ const login = dispatch => ({email, password}) => {
         console.log("ERROR", err)
         return Alert.alert(
             "Login Error",
-            `${err}`,
+            `${err.response.data.error}`,
             [
                 {
                 text: "OK"

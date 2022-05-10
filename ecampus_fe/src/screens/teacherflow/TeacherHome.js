@@ -17,9 +17,9 @@ const TeacherHome = ({navigation}) => {
         //   const granted = await PermissionsAndroid.request(
         //     PermissionsAndroid.PERMISSIONS.CAMERA,
         //     {
-        //       title: "Cool Photo App Camera Permission",
+        //       title: "E-Campus requires permission",
         //       message:
-        //         "Cool Photo App needs access to your camera " +
+        //         "E-Campus needs to access your storage" +
         //         "so you can take awesome pictures.",
         //       buttonNeutral: "Ask Me Later",
         //       buttonNegative: "Cancel",
@@ -32,10 +32,9 @@ const TeacherHome = ({navigation}) => {
             PermissionsAndroid.request(
                 PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
                 {
-                  title: "Cool Photo App Camera Permission",
+                  title: "E-Campus requires permission",
                   message:
-                    "Cool Photo App needs access to your camera " +
-                    "so you can take awesome pictures.",
+                    "E-Campus needs to access your storage" ,
                   buttonNeutral: "Ask Me Later",
                   buttonNegative: "Cancel",
                   buttonPositive: "OK"

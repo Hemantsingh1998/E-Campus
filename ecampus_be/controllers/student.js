@@ -58,7 +58,7 @@ exports.listStudentsForAttendance = (req, res) => {
                         error: err
                     });
                 }
-                console.log(students)
+                // console.log(students)
                 res.json(students);
         })
     }

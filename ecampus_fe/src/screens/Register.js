@@ -8,11 +8,11 @@ const Register = ({navigation}) => {
 
     const {state, register} = useContext(AuthContext)
     const [email, setemail] = useState('')
-    const [firstName, setFirstName] = useState('')
-    const [middleName, setMiddleName] = useState('')
+    const [firstName, setFirstName] = useState('Student')
+    const [middleName, setMiddleName] = useState('Test')
     const [lastName, setLastName] = useState('')
-    const [password, setpassword] = useState('')    
-    const [mobileNumber, setmobileNumber] = useState('')
+    const [password, setpassword] = useState('12345678')    
+    const [mobileNumber, setmobileNumber] = useState('5424987526')
     // const [name, setname] = useState('')
     // const [error, setError] = useState('')
 

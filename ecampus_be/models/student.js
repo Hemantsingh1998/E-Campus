@@ -20,6 +20,11 @@ const studentSchema = new mongoose.Schema({
         ref:'Stream',
         required: true
     },
+    attendanceStatus: {
+        type: String,
+        required: true,
+        default: 'null'
+    },
     admissionNumber: {
         type: String,
         required: true

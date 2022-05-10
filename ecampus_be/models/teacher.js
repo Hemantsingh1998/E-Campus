@@ -11,13 +11,14 @@ const teacherSchema = new mongoose.Schema({
         type: String,
         required: true
     }, 
-    course: [{
+    subjects: [{
         type: ObjectId,
-        ref:'Course',
+        ref:'Subject',
         required: true
     }],
     stream: {
-        type: String,
+        type: ObjectId,
+        ref:'Stream',
         required: true
     }
 }, {

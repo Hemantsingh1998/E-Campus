@@ -1,9 +1,9 @@
-import React, { useContext, useState} from 'react'
+import React, {useEffect, useContext, useState} from 'react'
 import { View, TouchableOpacity, ScrollView, Alert, KeyboardAvoidingView } from "react-native"
 import { Text } from 'react-native-elements'
 import { Context as AuthContext } from '../context/AuthContext'
 import { TextInput } from 'react-native-paper'
-
+import actions from '../api/actions'
 const Login = ({navigation}) => {
 
     const {state, login} = useContext(AuthContext)
@@ -11,9 +11,17 @@ const Login = ({navigation}) => {
     const [password, setpassword] = useState('')    
     const [mobileNumber, setmobileNumber] = useState('')
     const [name, setname] = useState('')
+    const [registerStatus, setRegisterStatus] = useState(false)
     // const [error, setError] = useState('')
 
     const emailRegex = /\S+@\S+\.\S+/;
+
+    useEffect(() => {
+        actions.get(`/api/get-register-status`).then(res => {
+            // console.log(res.data)
+            setRegisterStatus(res.data.status)
+        })
+    }, [])
 
     const handleLogin = ({ email, password}) => {
         if ( email == '' || password == "" || password.length <= 7){
@@ -85,8 +93,9 @@ const Login = ({navigation}) => {
                     }} onPress={() => handleLogin({name, mobileNumber, email, password})} >
                         <Text style={{padding: 10, color:"white"}}>Login</Text>
                     </TouchableOpacity>
-                </View>            
-            <TouchableOpacity onPress={() => {navigation.navigate('registerScreen')}}><Text>Register</Text></TouchableOpacity>
+                </View>          
+                {registerStatus ? <TouchableOpacity onPress={() => {navigation.navigate('registerScreen')}}><Text>Register</Text></TouchableOpacity> : null}  
+            
             </KeyboardAvoidingView >
             </ScrollView>
         </View>

@@ -14,7 +14,6 @@ const wait = (timeout) => {
 const AddSubject = ({navigation}) => {
 
     const [subjectName, setSubjectName] = useState('')
-    const [duration, setDuration] = useState(0)
     const [courses, setCourses] = useState([])
     const [stream, setStreams] = useState([])
     const [selectedItems, setSelectedItems] = useState();
@@ -59,9 +58,9 @@ const AddSubject = ({navigation}) => {
         }
     }
 
-    const handleSubmit = ({subjectName, duration}) => {
-        console.log(subjectName, duration, selectedItems)
-        if (subjectName === '' || duration === 0) {
+    const handleSubmit = ({subjectName }) => {
+        console.log(subjectName, selectedItems)
+        if (subjectName === '') {
             return Alert.alert(
             "Form Empty",
             "Fill Your Credentials",
@@ -72,7 +71,7 @@ const AddSubject = ({navigation}) => {
             ]
         )
         } else {
-            AddSubjectAd({subjectName, duration, belongsTo: selectedItems[0], postedBy: user.id})
+            AddSubjectAd({subjectName, belongsTo: selectedItems[0], postedBy: user.id})
             _panel.hide()
         }
     }
@@ -106,7 +105,7 @@ const AddSubject = ({navigation}) => {
                 renderItem={({item}) => <View style={{ padding: 5}}
                 // onPress={() => {navigation.navigate('TodoDetails', { _id: item._id })}}
                 ><View style={{backgroundColor: 'white', elevation:12, borderRadius:20, padding: 10}}><Text h4>{item.subjectName}</Text>
-                <Text>Duration:{item.duration} year</Text></View></View>}
+                </View></View>}
             />
             <View style={{padding: 50}}>
                 <Button onPress={() => _panel.show()} title="Add Subject" />
@@ -130,17 +129,6 @@ const AddSubject = ({navigation}) => {
                         autoCorrect={false}
                         value={subjectName}
                         onChangeText={setSubjectName}
-                    />
-                    <TextInput
-                    theme={{ colors: { primary: '#0275d8',underlineColor:'transparent'}}}
-                    style={{ width: "90%", marginVertical:10}}
-                        mode="outlined"
-                        label="Duration as per year"
-                        returnKeyType="next"
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                        value={duration}
-                        onChangeText={setDuration}
                     />
                     <View style={{width: '90%'}}>
                     <MultiSelect
@@ -174,7 +162,7 @@ const AddSubject = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: "#0275d8",
                     elevation: 12
-                    }} onPress={() => handleSubmit({subjectName, duration})} >
+                    }} onPress={() => handleSubmit({subjectName})} >
                         <Text style={{padding: 10, color:"white"}}>Submit</Text>
                     </TouchableOpacity>
                     </View>

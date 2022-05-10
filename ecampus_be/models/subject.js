@@ -10,10 +10,6 @@ const subjectSchema = new mongoose.Schema({
         type: ObjectId,
         ref:'Stream',
         required: true
-    },
-    duration: {
-        type: Number,
-        required: true
     }
 }, {
     timestamps: true
