@@ -64,12 +64,14 @@ exports.getSingleTeacher = (req, res) => {
     Teacher.findOne({teacherId: req.query.id})
     .populate('teacherId', '_id, firstName lastName')
     .populate('subjects', '_id, subjectName')
+    .populate('stream', '_id, streamName')
     .exec((err, teacher) => {
         if (err) {
             res.status(400).json({
                 error: "Teacher not found"
             })
         } else {
+            console.log(teacher)
             res.json(teacher)
         }
     })

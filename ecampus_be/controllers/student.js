@@ -63,3 +63,20 @@ exports.listStudentsForAttendance = (req, res) => {
         })
     }
 };
+
+exports.getSingleStudent = (req, res) => {
+    console.log(req.query)
+    Student.findOne({studentId: req.query.id})
+    .populate('studentId', '_id, firstName lastName')
+    .populate('stream', '_id, streamName')
+    .exec((err, teacher) => {
+        if (err) {
+            res.status(400).json({
+                error: "Teacher not found"
+            })
+        } else {
+            console.log(teacher)
+            res.json(teacher)
+        }
+    })
+}

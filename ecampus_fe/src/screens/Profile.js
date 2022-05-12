@@ -1,11 +1,32 @@
-import React from "react";
-import { View , ImageBackground} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View , ImageBackground, FlatList, TouchableOpacity} from "react-native";
 import { Text } from "react-native-elements";
-
+import actions from '../api/actions'
 const Profile = ({navigation}) => {
 
     let user = navigation.getParam('user')
     console.log("USER", user)
+
+    const [userData, setUserData] = useState({})
+    const [stream, setStream] = useState('')
+
+    useEffect(() => {
+        getUser()
+    },[])
+
+    const getUser = () => {
+        console.log('loaded')
+        if (user.role === 1) {
+            let params={
+                id: user.id
+            }
+            actions.get(`/api/getsingleteacher`, {params}).then(res => {
+                console.log(res.data)
+                setUserData(res.data)
+                setStream(res.data.stream)
+            })
+        }
+    }
 
     return(
         <View style={{flex: 1}}>
@@ -21,10 +42,26 @@ const Profile = ({navigation}) => {
                 </View>
                     <View>
                         <Text h1>{user.firstName} {user.lastName}</Text>
+                        <Text h4>{stream.streamName}</Text>
                     </View>
             </View>
             <View style={{flex: 2.8}}>
-                <Text>User Info</Text>
+                <View>
+                    <Text h3>Subjects</Text>
+                <FlatList
+                style={{width: '100%', height:"100%"}}
+                    data={userData.subjects}
+                    keyExtractor={(item) => item._id}
+                    renderItem={({item}) => <View style={{ padding: 5}}>
+                        <View style={{backgroundColor: 'white'}}>
+                            <TouchableOpacity style={{padding: 5}}>
+                                <Text h4>{item.subjectName}</Text>
+                                {/* <Text>{item.year}</Text> */}
+                            </TouchableOpacity>
+                        </View>
+                    </View>}
+                />
+                </View>
             </View>
         </View>
     )

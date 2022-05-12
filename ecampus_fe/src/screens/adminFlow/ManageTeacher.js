@@ -104,7 +104,7 @@ const handleSubmit = ({selectedSubjects, selectedItems, salutation, stream}) => 
   } else {
     actions.post('/api/add-teacher', {teacherId: selectedItems,
       subjects: selectedSubjects,
-      salutation, stream: selectedItems}).then(res => {
+      salutation, stream: selectedStream}).then(res => {
       console.log("ADDED TEACHER RESPONSE", res.data)
       // setCourse([])
       setSelectedItems([])
