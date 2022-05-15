@@ -105,6 +105,7 @@ const Register = ({navigation}) => {
                         label="Mobile Number"
                         returnKeyType="next"
                         autoCapitalize='none'
+                        keyboardType='number-pad'
                         autoCorrect={false}
                         value={mobileNumber}
                         onChangeText={setmobileNumber}

@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 let url;
 if (__DEV__) {
-  url = 'http://192.168.43.154:9000';
+  url = 'http://192.168.0.108:9000';
 } else {
   // url =
 }

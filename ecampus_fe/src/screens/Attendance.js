@@ -5,6 +5,7 @@ import MultiSelect from 'react-native-multiple-select';
 import { RadioButton } from 'react-native-paper';
 import actions from '../api/actions'
 import { FlatList } from "react-native-gesture-handler";
+import moment from "moment";
 
 const Attendance = ({navigation}) => {
 
@@ -17,12 +18,14 @@ const Attendance = ({navigation}) => {
     const [selectedSubject, setSelectedSubject] = useState([]);
     const [teacher, setTeacher] = useState({})
     const [students, setStudents] = useState([])
+    const [attendFromStudent, setAttendanceFromStudent] = useState([])
     const [present, setPresent] = useState([])
     const [absent, setAbsent] = useState([])
 
     useEffect(() => {
         getStream()
         getSingleTeacher()
+        getAttendForStudent()
     }, [])
 
     // const getStudents = () => {
@@ -48,15 +51,17 @@ const Attendance = ({navigation}) => {
     }
 
     const getSingleTeacher = () => {
-        let params = {
-            id: user.id
-         }
-        actions.get(`/api/getsingleteacher`, {params}).then(res => {
-            console.log(res.data)
-            setTeacher(res.data)
-        }).catch(err => {
-            console.log(err)
-        })
+        if (user.role === 1) {
+            let params = {
+                id: user.id
+             }
+            actions.get(`/api/getsingleteacher`, {params}).then(res => {
+                console.log(res.data)
+                setTeacher(res.data)
+            }).catch(err => {
+                console.log(err)
+            })
+        }
     }
 
     const setSearch = (checked, selectedItems) => {
@@ -71,6 +76,19 @@ const Attendance = ({navigation}) => {
             }
             actions.get(`/api/getstudentforattendance/`, {params}).then(res => {
                 setStudents(res.data)
+            })
+        }
+    }
+
+    const getAttendForStudent = () => {
+        if (user.role === 0) {
+            let params = {
+                id : user.id
+            }
+            actions.get(`/api/getattendanceforstudents/`, {params}).then(res => {
+                setAttendanceFromStudent(res.data)
+            }).catch(err => {
+                console.log(err)
             })
         }
     }
@@ -296,9 +314,25 @@ const Attendance = ({navigation}) => {
            </TouchableOpacity> }
       </View>
           </View>}
-  </View>: <View>
-                    <Text h1>Students Dashboard</Text>
-                </View>}
+  </View> : <View>
+                <Text h1>Students Dashboard</Text>
+                <View>
+                    <FlatList
+                    style={{width: '100%', height:"85%"}}
+                    data={attendFromStudent}
+                    keyExtractor={(item) => item._id}
+                    renderItem={({item}) => <View style={{ padding: 5}}>
+                        <View style={{elevation: 12, backgroundColor: 'white'}}>
+                            <TouchableOpacity 
+                            onPress={() => navigation.navigate('SingleAttend', {item: item, user: user})} style={{padding: 5}}>
+                                <Text style={{padding: 5}} h4>{item.subject.subjectName} {`(${item.stream.streamName})`}</Text>
+                                <Text>Date: {moment(item.postedDate).format('DD/MM/YYYY')}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>}
+                    />
+                </View>
+            </View>}
         </View>
     )
 }

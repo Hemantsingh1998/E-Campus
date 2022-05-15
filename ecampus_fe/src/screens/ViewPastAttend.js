@@ -29,10 +29,10 @@ const ViewPastAttend = ({navigation}) => {
               keyExtractor={(item) => item._id}
               renderItem={({item}) => <View style={{ padding: 5}}>
                   <View style={{backgroundColor: 'white'}}>
-                      <TouchableOpacity onPress={() => navigation.navigate('SingleAttend', {item: item})} style={{padding: 5}}>
+                      <TouchableOpacity onPress={() => navigation.navigate('SingleAttend', {item: item, user: user})} style={{padding: 5}}>
                           <Text h4>{item.subject.subjectName} {`(${item.stream.streamName})`}</Text>
-                          {/* <Text>{item.year}</Text> */}
-                          <Text>{moment(item.postedDate).format("DD/MM/YYYY")}</Text>
+                          <Text>{item.year}</Text>
+                          <Text>DATE: {moment(item.postedDate).format('DD/MM/YYYY')}</Text>
                       </TouchableOpacity>
                   </View>
               </View>}

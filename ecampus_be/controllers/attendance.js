@@ -49,3 +49,28 @@ exports.getAttendanceByTeacher = (req, res) => {
         res.json(attend)
     })
 }
+
+exports.getAttendForStudent = (req, res) => {
+    console.log("QUERY", req.query);
+    // const { stream } = req.query;
+    if (req.query.id) {
+        attendance.find(
+            {
+                $or: [{ studentPresent :req.query.id },{ studentAbsent :req.query.id }]
+            }
+        ).populate('studentPresent', '_id, firstName lastName')
+        .populate('studentAbsent', '_id, firstName, lastName')
+        .populate('stream', '_id, streamName')
+        .populate('subject', '_id, subjectName')
+        .exec((err, students) => {
+                if (err) {
+                    console.log(err)
+                    return res.status(400).json({
+                        error: err
+                    });
+                }
+                console.log("STUDENTS", students)
+                res.json(students);
+        })
+    }
+};
